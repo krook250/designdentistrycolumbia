@@ -7,7 +7,7 @@ export const SITE = {
   mapsUrl: 'https://maps.app.goo.gl/Dqyr3ekw5vxym6st8',
   mapEmbed:
     'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d13208.895388711198!2d-80.9003706!3d34.1406148!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88f8a989b14a48bb%3A0xaecd25da5b953731!2sDesign%20Dentistry%20Columbia!5e0!3m2!1sen!2sus!4v1697645061880!5m2!1sen!2sus',
-  facebook: 'https://www.facebook.com/isaiah.davis.904/',
+  facebook: 'https://www.facebook.com/designdentistrycolumbia',
   instagram: 'https://instagram.com/dentalmanike',
   defaultDescription:
     'Design Dentistry Columbia is a Cosmetic Dental practice that also offers General Dentistry with state-of-the-art technology and restorative services . We pride ourselves on creating lifelong relationships and work to ensure that each patient receive treatments in a comfortable and relaxed environment.',
