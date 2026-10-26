@@ -1,0 +1,44 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { SITE } from '../data/site';
+---
+<Base title="Dr. Isaiah Davis aka Dr. Ike" description="Descriptions of Dr. Isaiah Davis, about his career as a Dentist and his influence to becoming a Dentist.">
+  <Hero tall plain video="/videos/24llTVEQX69B8Md0XC4g_Grain-8-v.mp4" poster="/images/24llTVEQX69B8Md0XC4g_Grain-8.v2.0000000.jpg" />
+  <section class="section">
+    <div class="wrap bio">
+      <div class="bio__photo"><img src="/images/DSC_2574-1-1.jpg" alt="Dr. Isaiah Davis" loading="lazy" /></div>
+      <div class="prose">
+        <h1 class="green">Dr. Isaiah Davis</h1>
+        <p>Dr. Isaiah L. Davis is a native of Columbia, SC. He attended Sandhills Academy for elementary school and Spring Valley High School. He graduated from The University of South Carolina with a B.S degree in Chemical Engineering. He completed his degree in Dental Medicine at the Medical University of South Carolina.</p>
+        <p>After dental school Dr. Davis, (Dr. Ike) joined the staff of Davis and Dingle Family Dentistry where he was employed as an Associate Dentist. He is a member of the South Carolina Dental Association, The American Dental Association, The Academy of General Dentistry and The South Carolina Academy of Advanced Implant studies. He is a Member of Kappa Alpha Psi Fraternity Columbia Alumni Chapter. Dr. Davis is an avid runner as a part of Team Utopia South.</p>
+        <p>Dr. Ike enjoys serving his community through health fairs and donations. His hobbies include outdoor activities such as rafting, running 5k and half marathons. He also enthusiastically continues his dental education through certified dental CE courses.</p>
+      </div>
+    </div>
+  </section>
+  <section class="section section--blue">
+    <div class="wrap narrow center">
+      <h2>MY INFLUENCE</h2>
+      <video class="inline-video" controls preload="none" poster="/images/TtvRqtBeRoS2ReX4K2u2_Why-Dentistry.v2.0000000.jpg" style="margin-top:24px">
+        <source src="/videos/TtvRqtBeRoS2ReX4K2u2_Why-Dentistry-v.mp4" type="video/mp4" />
+      </video>
+    </div>
+  </section>
+  <section class="family" style="background-image:url('/images/Ike-Fam.jpg')" aria-label="Dr. Ike's family"></section>
+  <section class="section">
+    <div class="wrap narrow center">
+      <h2 class="blue">Stay Social</h2>
+      <p style="font-size:21px">Follow <a href={SITE.instagram} target="_blank" rel="noopener">@dentalmanike</a> on Instagram and stay up to date with your favorite Dentist!</p>
+      <a class="btn" href={SITE.instagram} target="_blank" rel="noopener">Follow on Instagram</a>
+    </div>
+  </section>
+  <CtaBand />
+</Base>
+<style>
+  .bio { display: grid; grid-template-columns: minmax(0, 440px) 1fr; gap: clamp(32px, 6vw, 72px); align-items: start; }
+  .bio__photo { background: var(--green); padding: 20px; }
+  .bio__photo img { width: 100%; aspect-ratio: 4/5; object-fit: cover; object-position: top; background: #fff; }
+  @media (max-width: 820px) { .bio { grid-template-columns: 1fr; } .bio__photo { max-width: 420px; } }
+  .family { min-height: clamp(300px, 50vw, 640px); background-size: cover; background-position: center 25%; }
+</style>

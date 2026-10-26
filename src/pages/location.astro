@@ -1,0 +1,46 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import { SITE } from '../data/site';
+---
+<Base title="Design Dentistry Location" description="Design Dentistry is located in Columbia, South Carolina.">
+  <Hero image="/images/DJI_0414.jpg">
+    <h1>Where We Are!</h1>
+    <p>126 Professional Park Rd, Columbia, SC 29229</p>
+  </Hero>
+  <section class="section">
+    <div class="wrap split">
+      <div class="prose">
+        <h2>Directions</h2>
+        <p>We are on Clemson Rd. between North Springs Elementary and Hardscrabble rd.</p>
+        <p>If you are coming from the Sandhills direction, we will be on Professional Park Rd. on your left. Look for the large sign that has the collection of medical practices on it. If you pass the Post Office, you have gone too far.</p>
+        <p>If you are coming from the Hardscrabble Rd. direction, we will be on your right. When you see the Post Office, slow down, then continue to pass the storage facilities and turn into Professional Park Rd. at the big sign with the collection of medical practices on it.</p>
+        <p>Drive down till the end, and we will be the only building on your right hand side.</p>
+        <p><strong>Follow The Logo!</strong></p>
+        <a class="btn" href={SITE.mapsUrl} target="_blank" rel="noopener">Open in Google Maps</a>
+      </div>
+      <iframe class="map" src={SITE.mapEmbed} title="Map to Design Dentistry Columbia" loading="lazy"></iframe>
+    </div>
+  </section>
+  <section class="section section--soft">
+    <div class="wrap narrow center">
+      <video class="inline-video" controls preload="none" poster="/images/U2DsYsVoQ4K1Y71SxpNN_DD-HS-5.v2.0000000.jpg">
+        <source src="/videos/U2DsYsVoQ4K1Y71SxpNN_DD-HS-5-v.mp4" type="video/mp4" />
+      </video>
+      <h2 style="margin-top:32px">For visual directions of how to get to our office, please watch the above video. See you soon!</h2>
+      <p class="signature">Dr. Ike</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="wrap">
+      <h2 class="center">Reviews</h2>
+      <script is:inline src="https://apps.elfsight.com/p/platform.js" defer></script>
+      <div class="elfsight-app-99d0b13f-90fc-47bc-a22b-3d9599f83588"></div>
+    </div>
+  </section>
+</Base>
+<style>
+  .map { width: 100%; height: 100%; min-height: 380px; border: 0; border-radius: var(--radius); }
+  .signature { font-family: var(--f-sig); font-size: 40px; margin: 0; }
+  h2 { font-size: clamp(22px, 2.4vw, 28px); }
+</style>

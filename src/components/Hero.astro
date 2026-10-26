@@ -1,0 +1,14 @@
+---
+interface Props { video?: string; poster?: string; image?: string; tall?: boolean; plain?: boolean; }
+const { video, poster, image, tall = false, plain = false } = Astro.props;
+---
+<section class:list={['hero', { 'hero--tall': tall, 'hero--plain': plain }]} style={poster || image ? `background-image:url('${poster || image}')` : undefined}>
+  {video ? (
+    <video class="hero__media" autoplay muted loop playsinline preload="metadata" poster={poster} aria-hidden="true">
+      <source src={video} type="video/mp4" />
+    </video>
+  ) : (poster || image) ? (
+    <img class="hero__media" src={poster || image} alt="" fetchpriority="high" />
+  ) : null}
+  {Astro.slots.has('default') && <div class="hero__inner"><slot /></div>}
+</section>

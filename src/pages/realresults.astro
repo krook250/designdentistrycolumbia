@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import CtaBand from '../components/CtaBand.astro';
+const pairs = [
+  ['P1Before.JPEG', 'P1After.JPG'], ['P3Before-4c10884a.JPG', 'P3After.JPG'], ['P5Before-cc7dbaf8.jpeg', 'P5After.JPG'],
+  ['P4Before.png', 'P4After.JPG'], ['P6Before.JPG', 'P6After.JPG'], ['P7Before.jpeg', 'P7After.JPG'],
+  ['P8Before.png', 'P8After.jpeg'], ['P9Before.JPG', 'P9After.png'],
+];
+---
+<Base title="Before and After Gallery" description="The work of Design Dentistry Columbia. Producing natural smiles after small and large reconstruction procedures. Here are a few visual references.">
+  <Hero video="/videos/fTPlZp0jTRWIMAGntDyQ_13TC-v.mp4" poster="/images/fTPlZp0jTRWIMAGntDyQ_13TC.v2.0000000.jpg">
+    <h1>Before and Afters</h1>
+  </Hero>
+  <section class="section">
+    <div class="wrap">
+      <div class="pairs">
+        {pairs.map(([b, a]) => (
+          <div class="pair">
+            <figure><img src={`/images/${b}`} alt="Before treatment" loading="lazy" /><figcaption>Before</figcaption></figure>
+            <figure><img src={`/images/${a}`} alt="After treatment" loading="lazy" /><figcaption>After</figcaption></figure>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+  <CtaBand />
+</Base>
+<style>
+  .pairs { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 520px), 1fr)); gap: 36px; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .pair figure { margin: 0; position: relative; }
+  .pair img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 4px; }
+  .pair figcaption { position: absolute; left: 8px; top: 8px; background: rgba(0,0,0,.65); color: #fff; font-family: var(--f-head); font-size: 14px; letter-spacing: .06em; text-transform: uppercase; padding: 3px 10px; border-radius: 3px; }
+  .pair figure:last-child figcaption { background: var(--green); }
+</style>

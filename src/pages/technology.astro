@@ -1,0 +1,35 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import CtaBand from '../components/CtaBand.astro';
+
+const rows = [
+  { title: 'Digital Implant Planning', img: '/images/thumbnail_image-3.jpg', body: [
+    'The precision planning of placement of biocompatible cylinders that secure prosthetic teeth like dental crowns, bridges or dentures into place.',
+    'This mean we know exact where we are going before we even numb you up. Armed with guides from our 3D comb beam imaging and scan models, you can rest assured that you treatment will always be successful.',
+  ] },
+  { title: '3D Cone Beam', img: '/images/3d-COne-Beam-2.jpg', body: [
+    'Dental cone beam computed tomography or CBCT is the newest and most reliable tool in diagnosing and treatment planning complex cases. This technology gives the practice a range of capabilities in treating our patient at high levels. Its 3D rendering on the patient hard tissue is second to none. "If you can see it, you can treat it."',
+  ] },
+  { title: 'Digital Smile Design', img: '/images/Screen-Shot-2022-11-03-at-8.55.46-PM-2.jpg', body: [
+    'A comprehensive workflow between practice and lab to the patient with physicals 3D modeling of perspective new smile.',
+  ] },
+];
+---
+<Base title="Technology - Design Dentistry Columbia">
+  <Hero video="/videos/lNOq5vyzQVOYfIIxpU4K_FINAL2-v.mp4" poster="/images/lNOq5vyzQVOYfIIxpU4K_FINAL2.v2.0000000.jpg">
+    <h1>Technology</h1>
+  </Hero>
+  {rows.map((r, i) => (
+    <section class:list={['section', { 'section--soft': i % 2 === 1 }]}>
+      <div class:list={['wrap split', { 'split--flip': i % 2 === 1 }]}>
+        <div class="split__img"><img src={r.img} alt={r.title} loading="lazy" /></div>
+        <div class="prose">
+          <h2>{r.title}</h2>
+          {r.body.map((p) => <p>{p}</p>)}
+        </div>
+      </div>
+    </section>
+  ))}
+  <CtaBand />
+</Base>

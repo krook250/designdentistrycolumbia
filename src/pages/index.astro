@@ -1,0 +1,166 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+
+const tech = [
+  { title: 'Digital Smile Design', text: '3D print models of new smile designs' },
+  { title: '3D Cone Beam', text: "3D imagining of patient's hard tissue. This allows for better treatment plan like never before" },
+  { title: 'Digital Implant Planning', text: 'The precision planning the of placement of biocompatible cylinders that secure prosthetic teeth like dental crowns, bridges or dentures into place.' },
+];
+const partners = [
+  { src: '/images/Dentsply_Sirona_Logo.jpeg', alt: 'Dentsply Sirona' },
+  { src: '/images/henry-schein-logo-black-and-white.png', alt: 'Henry Schein' },
+  { src: '/images/Pulpdent_Logo.webp', alt: 'Pulpdent' },
+  { src: '/images/NicePng_number-10-png_1171621.png', alt: '3M' },
+];
+const insurers = [
+  { src: '/images/cigna-logo-logo-black-and-white.png', alt: 'Cigna' },
+  { src: '/images/blue-cross-blue-shield-logo-png-transparent.png', alt: 'Blue Cross Blue Shield' },
+  { src: '/images/delta-dental-logo-a582eb11.png', alt: 'Delta Dental' },
+];
+---
+<Base title="Columbia Dentist - Design Dentistry Columbia">
+  <Hero tall plain video="/videos/qmJC9iaR9aMXrSjXR2Ig_Modern-Intro-DD-DEsign-v.mp4" poster="/images/home-hero.jpg" />
+
+  <section class="tagline">
+    <div class="wrap center">
+      <h1>Columbia, South Carolina's #1 Cosmetic Dentist</h1>
+      <a class="btn" href="/contact#Contactus">Schedule Your Appointment</a>
+    </div>
+  </section>
+
+  <section class="believe" style="background-image:url('/images/DSC_9452.jpg')">
+    <div class="wrap">
+      <div class="believe__text">
+        <h2>We Believe In</h2>
+        <p>Creating lifelong relationships with our patients and their families and work to ensure that they receive treatments in a comfortable and relaxed environment.</p>
+        <p>We pride ourselves on providing a level of service that garners the admiration of both the patient and colleagues.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap doctor">
+      <div class="doctor__photo">
+        <img src="/images/DSC_1458-1-1.jpg" alt="Dr. Isaiah Davis" width="560" height="680" loading="lazy" />
+      </div>
+      <div>
+        <h2 class="green doctor__title">The Columbia Dentist</h2>
+        <blockquote class="doctor__quote">
+          <p>"If you're walking down the right path and you're willing to keep walking, eventually you'll make progress."</p>
+          <cite>~ Barack Obama</cite>
+        </blockquote>
+        <p class="signature">Dr. Ike</p>
+        <a class="btn" href="/Isaiahdavis">More About Me</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--blue why">
+    <div class="wrap why__inner">
+      <div>
+        <h2 class="green">Why us?</h2>
+        <p>We are a Cosmetic Dental practice that offers General Dentistry for families of all sizes and state-of-the-art technology and restorative services for those who'd like to enhance or transform their smile.</p>
+      </div>
+      <a class="btn" href="/team">More About Us</a>
+    </div>
+  </section>
+
+  <section class="tech" style="background-image:url('/images/7cb5HkK6Tz2pPrYIrE2d_Tech_Vid_DDC.v2.0000000.jpg')">
+    <div class="wrap tech__inner">
+      <h2 class="center">TECHNOLOGY</h2>
+      <div class="tech__grid">
+        {tech.map((t) => (
+          <div>
+            <h3>{t.title}</h3>
+            <p>{t.text}</p>
+          </div>
+        ))}
+      </div>
+      <p class="center"><a class="btn" href="/technology">See Our Technology</a></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="appt" style="background-image:url('/images/DSC_9648.jpg')">
+        <div class="appt__text">
+          <h2>APPOINTMENTS</h2>
+          <p>"Progressing beyond the normal standard is the norm"</p>
+          <a class="btn" href="/contact#Contactus">Schedule Your Appointment</a>
+        </div>
+      </div>
+      <ul class="logos" aria-label="Partners">
+        {partners.map((p) => <li><img src={p.src} alt={p.alt} loading="lazy" /></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--blue insurance">
+    <div class="wrap center">
+      <h2>INSURANCE</h2>
+      <ul class="insurers">
+        {insurers.map((p) => <li><img src={p.src} alt={p.alt} loading="lazy" /></li>)}
+      </ul>
+      <p class="insurance__note">For more information to see if we accept your insurance provider, please contact us and we will be happy to answer all of your dentistry questions.</p>
+      <a class="btn" href="/contact">Contact Us</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .tagline { padding: 40px 0 44px; }
+  .tagline h1 { color: var(--green); font-size: clamp(28px, 3.4vw, 40px); margin-bottom: 18px; }
+
+  .believe {
+    position: relative; background-size: cover; background-position: center; background-attachment: fixed;
+    padding: clamp(80px, 11vw, 140px) 0; color: #fff;
+  }
+  .believe::before { content: ''; position: absolute; inset: 0; background: rgba(40, 40, 40, .45); }
+  .believe .wrap { position: relative; }
+  .believe__text { max-width: 560px; margin-left: auto; margin-right: 10%; font-size: 22px; line-height: 1.65; }
+  .believe__text h2 { color: var(--green); }
+  @media (max-width: 900px) { .believe { background-attachment: scroll; } .believe__text { margin: 0; font-size: 19px; } }
+
+  .doctor { display: grid; grid-template-columns: minmax(0, 520px) 1fr; gap: clamp(32px, 6vw, 80px); align-items: center; }
+  .doctor__photo { background: var(--green); padding: 24px; }
+  .doctor__photo img { width: 100%; aspect-ratio: 5/6; object-fit: cover; object-position: top; }
+  .doctor__title { font-weight: 500; font-size: clamp(36px, 4.4vw, 52px); }
+  .doctor__quote { margin: 0 0 18px; }
+  .doctor__quote p { font-size: clamp(20px, 2vw, 24px); line-height: 1.5; margin-bottom: 6px; }
+  .doctor__quote cite { font-style: normal; font-size: 17px; }
+  .signature { font-family: var(--f-sig); font-size: 40px; margin: 0 0 22px; }
+  @media (max-width: 820px) { .doctor { grid-template-columns: 1fr; } .doctor__photo { max-width: 460px; } }
+
+  .why__inner { display: flex; gap: 32px 64px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+  .why__inner > div { max-width: 720px; font-size: 21px; }
+  .why h2 { margin-bottom: .3em; }
+
+  .tech { position: relative; color: #fff; padding: clamp(70px, 9vw, 120px) 0; overflow: hidden; background: #111 center / cover no-repeat; }
+  .tech__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .tech::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,.55); z-index: 1; }
+  .tech__inner { position: relative; z-index: 2; }
+  .tech h2 { color: #fff; font-size: clamp(40px, 5vw, 56px); }
+  .tech__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin: 40px 0; }
+  .tech__grid h3 { color: var(--green); font-size: 30px; padding-bottom: 14px; margin-bottom: 14px; position: relative; }
+  .tech__grid h3::after { content: ''; position: absolute; left: 0; bottom: 0; width: 64px; height: 2px; background: #fff; }
+  .tech__grid p { font-weight: 700; font-size: 20px; line-height: 1.55; }
+  @media (max-width: 820px) { .tech__grid { grid-template-columns: 1fr; gap: 28px; } }
+
+  .appt { position: relative; background-size: cover; background-position: 30% center; min-height: 480px; display: flex; align-items: center; justify-content: flex-end; color: #fff; }
+  .appt::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,0) 30%, rgba(0,0,0,.6) 70%); }
+  .appt__text { position: relative; max-width: 460px; padding: 40px clamp(24px, 5vw, 64px); }
+  .appt h2 { color: #fff; font-size: clamp(40px, 5vw, 56px); }
+  .appt p { font-size: 22px; }
+
+  .logos { list-style: none; padding: 0; margin: 48px 0 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; align-items: center; }
+  .logos img { max-height: 90px; width: auto; margin: 0 auto; object-fit: contain; filter: grayscale(1); }
+  @media (max-width: 700px) { .logos { grid-template-columns: repeat(2, 1fr); } }
+
+  .insurance h2 { font-size: clamp(40px, 5vw, 56px); padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,.7); }
+  .insurers { list-style: none; padding: 0; margin: 32px 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .insurers li { background: #fff; border-radius: var(--radius); padding: 20px; display: grid; place-items: center; }
+  .insurers img { max-height: 110px; width: auto; object-fit: contain; }
+  .insurance__note { max-width: 820px; margin: 0 auto 24px; font-size: 20px; }
+  @media (max-width: 700px) { .insurers { grid-template-columns: 1fr; } }
+</style>

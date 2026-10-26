@@ -1,0 +1,37 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import CtaBand from '../components/CtaBand.astro';
+---
+<Base title="Testimonials for Design Dentistry" description="Testimonials of clients of Design Dentistry Columbia, and their experiences with our team and in our dental chairs.">
+  <Hero video="/videos/GtcsdW1VTimWbHA5zf42_real-stories-intro-v.mp4" poster="/images/GtcsdW1VTimWbHA5zf42_real-stories-intro.v2.0000000.jpg">
+    <h1>Real Stories</h1>
+    <p>Community is Everything</p>
+  </Hero>
+  <section class="section">
+    <div class="wrap">
+      <h2 class="center blue">CLIENT TESTIMONIALS</h2>
+      <div class="stories">
+        <figure>
+          <iframe class="embed" src="https://www.youtube-nocookie.com/embed/GfCpHlwVI5A" title="Stan &amp; Jeannie Moore: Proof Positive" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <figcaption>Stan &amp; Jeannie Moore: Proof Positive</figcaption>
+        </figure>
+        <figure>
+          <video class="inline-video" controls preload="none" poster="/images/vV72EtSlR7SYauvGDuYO_Tra-Rush-Intro-2.v2.0000000.jpg"><source src="/videos/vV72EtSlR7SYauvGDuYO_Tra-Rush-Intro-2-v.mp4" type="video/mp4" /></video>
+          <figcaption>Tra' Rush: Big on Family</figcaption>
+        </figure>
+        <figure>
+          <video class="inline-video" controls preload="none" poster="/images/48bd56vTQlevcOCMQs0b_Gold-Tooth-3-SM.v2.0000000.jpg"><source src="/videos/48bd56vTQlevcOCMQs0b_Gold-Tooth-3-SM-v.mp4" type="video/mp4" /></video>
+          <figcaption>Catching Fillings</figcaption>
+        </figure>
+      </div>
+      <p class="center" style="margin-top:40px"><a class="btn" href="/realresults">See Before &amp; After Photos</a></p>
+    </div>
+  </section>
+  <CtaBand />
+</Base>
+<style>
+  .stories { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 32px; margin-top: 32px; }
+  figure { margin: 0; }
+  figcaption { font-family: var(--f-head); font-size: 22px; color: var(--green); margin-top: 12px; text-align: center; }
+</style>

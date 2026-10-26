@@ -1,0 +1,43 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import CtaBand from '../components/CtaBand.astro';
+
+const rows = [
+  { title: 'Ceramic Veneers', img: '/images/dental-veneers.jpeg', href: '/dental-veneers',
+    body: ['As a cosmetic dental procedure, dental veneers create a brighter, whiter smile composed of more perfectly aligned and shapely teeth. Veneers are sometimes placed for cosmetic reasons alone, rather than for necessary health purposes.'] },
+  { title: 'Dental Crowns', img: '/images/illustration-of-a-dental-crown-768x615.jpeg', href: '/crowns',
+    body: ['Are tooth-shaped “caps” that can be placed over your tooth. Think of it like a snug hat for your tooth. The crown restores the tooth’s shape, size, strength and appearance.'],
+    list: ['The dental crown is cemented into place on your tooth and it covers the visible portion of the tooth.'] },
+  { title: 'Dental Bonding', img: '/images/dental-bonding-2.jpeg',
+    body: ['Dental bonding is used to make cosmetic improvements to your smile. The procedure uses tooth-colored composite resin material to:'],
+    list: ['Conceal chips or cracks in your teeth', 'Close gaps and spaces between your teeth.', 'Make your teeth look longer.', 'Change the shape of your teeth.'] },
+  { title: 'Inlays and Onlays', img: '/images/AdobeStock_264943854-scaled.jpeg', href: '/porcelain-inlays-and-onlays',
+    body: ['There are two types of indirect fillings – inlays and onlays.'],
+    list: ['Inlays are similar to fillings but the entire work lies within the cusps (bumps) on the chewing surface of the tooth.', 'Onlays are more extensive than inlays, covering one or more cusps. Onlays are sometimes called partial crowns.'] },
+  { title: 'Teeth Whitening', img: '/images/Smile.png', href: '/teeth-whitening',
+    body: ['Professional whitening is performed in-office by a dentist who uses professional whitening products and procedures to speed the whitening process. Your dentist will apply a hydrogen peroxide solution. Some products may require heat with a special light to accelerate the bleaching process. Other professionally available products will have a higher concentration of whitener, sometimes with desensitizer, and some type of custom tray for better whitener adhesion.'] },
+];
+---
+<Base title="Cosmetic Dentistry Procedures">
+  <Hero video="/videos/emda62JpTEnA4P6bVEXs_Rose-v.mp4" poster="/images/emda62JpTEnA4P6bVEXs_Rose.v2.0000000.jpg">
+    <h1>COSMETIC DENTISTRY</h1>
+    <p>We provide a wide range of professional services to meet your needs. We promise to provide every service with a smile, and to your highest level of satisfaction.</p>
+  </Hero>
+  {rows.map((r, i) => (
+    <section class:list={['section', { 'section--soft': i % 2 === 1 }]}>
+      <div class:list={['wrap split', { 'split--flip': i % 2 === 1 }]}>
+        <div class="split__img"><img src={r.img} alt={r.title} loading="lazy" /></div>
+        <div class="prose">
+          <h2>{r.title}</h2>
+          {r.body.map((p) => <p>{p}</p>)}
+          {r.list && <ul>{r.list.map((li) => <li>{li}</li>)}</ul>}
+          <p class="source">Reference: Cleveland Clinic</p>
+          {r.href && <a class="btn btn--sm" href={r.href}>Learn more</a>}
+        </div>
+      </div>
+    </section>
+  ))}
+  <CtaBand />
+</Base>
+<style>.source { font-size: 14px; color: var(--muted); font-style: italic; }</style>

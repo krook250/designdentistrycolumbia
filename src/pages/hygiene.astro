@@ -1,0 +1,60 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import CtaBand from '../components/CtaBand.astro';
+const cleanings = [
+  { name: 'Prophylaxis', alt: '“regular cleaning”', text: 'Routine preventive procedure involving removal of plaque, calculus, and stain from tooth surfaces in a healthy mouth.',
+    when: [], notes: ['Schedule every 6 months', 'Many insurance plans cover this fee in full.'] },
+  { name: 'Debridement', text: 'Preliminary procedure involving removal of heavy deposits from tooth surfaces in the presence of gum disease.',
+    when: ['Bleeding, tender gums', 'Heavy calculus build up', 'Not visited your dentist in over a year'], notes: ['Many insurance plans cover a portion of this fee.'] },
+  { name: 'Scaling and Root Planing', alt: '“deep cleaning”', text: 'Non-surgical procedure involving removal of plaque, calculus, and necrotic tissue from root surfaces and pockets in the presence of periodontal disease.',
+    when: ['Bone loss with pocketing > 4mm and bleeding', 'Heavy calculus below gumline'], notes: ['Many insurance plans cover a portion of this fee.'] },
+  { name: 'Periodontal Maintenance', text: 'Routine maintenance procedure involving removal of plaque, calculus, and stain from crowns and root surfaces following scaling and root planing. Replaces “regular cleaning.”',
+    when: [], notes: ['Scheduled every 3 - 4 months', 'Many insurance plans cover a portion of this fee.'] },
+];
+---
+<Base title="Hygiene Need To Know" description="Hygiene Treatment Outline, 4 types of dental cleanings explained before visiting the Dental Hygienist.">
+  <Hero video="/videos/nQPLzSdVSyCI8cO8fcsK_Two-Teeth-v.mp4" poster="/images/nQPLzSdVSyCI8cO8fcsK_Two-Teeth.v2.0000000.jpg">
+    <h1>Hygiene Treatment Outline</h1>
+    <p>4 types of dental cleanings</p>
+  </Hero>
+  <section class="section">
+    <div class="wrap narrow center">
+      <h2 class="blue">The Stages of Gum Disease</h2>
+      <img src="/images/GUm-Disease.jpeg" alt="The stages of gum disease" style="margin:24px auto 0;border-radius:6px" />
+    </div>
+  </section>
+  <section class="section section--soft">
+    <div class="wrap">
+      <h2 class="center blue">When Cleanings Are Needed</h2>
+      <div class="cleanings">
+        {cleanings.map((c, i) => (
+          <article class="cleaning">
+            <p class="cleaning__num">{i + 1}</p>
+            <h3>{c.name}</h3>
+            {c.alt && <p class="cleaning__alt">{c.alt}</p>}
+            <p>{c.text}</p>
+            {c.when.length > 0 && (<>
+              <p class="cleaning__label">You may need this procedure if you have:</p>
+              <ul>{c.when.map((w) => <li>{w}</li>)}</ul>
+            </>)}
+            <ul class="cleaning__notes">{c.notes.map((n) => <li>{n}</li>)}</ul>
+          </article>
+        ))}
+      </div>
+      <p class="center sig">— Cristine H. Mobley, RDH</p>
+    </div>
+  </section>
+  <CtaBand />
+</Base>
+<style>
+  .cleanings { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 24px; margin-top: 36px; }
+  .cleaning { background: #fff; border-radius: var(--radius); padding: 28px 24px; border-top: 4px solid var(--green); font-size: 17px; }
+  .cleaning__num { font-family: var(--f-head); font-size: 44px; color: var(--green); line-height: 1; margin: 0 0 8px; }
+  .cleaning h3 { color: var(--blue); font-size: 24px; margin-bottom: 4px; }
+  .cleaning__alt { font-style: italic; color: var(--muted); margin-bottom: 10px; }
+  .cleaning__label { font-weight: 700; margin-bottom: 4px; }
+  .cleaning ul { padding-left: 1.1em; margin: 0 0 12px; }
+  .cleaning__notes { list-style: none; padding: 12px 0 0 !important; border-top: 1px solid var(--line); color: var(--muted); font-size: 15px; }
+  .sig { font-family: var(--f-head); font-size: 20px; margin-top: 32px; }
+</style>

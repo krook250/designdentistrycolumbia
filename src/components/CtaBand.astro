@@ -1,0 +1,18 @@
+---
+interface Props { title?: string; text?: string; button?: string; href?: string; }
+const {
+  title = 'Interested in our services? We’re here to help!',
+  text = 'We want to know your needs exactly so that we can provide the perfect solution. Let us know what you want and we’ll do our best to help.',
+  button = 'Book an appointment',
+  href = '/contact',
+} = Astro.props;
+---
+<section class="cta-band">
+  <div class="wrap cta-band__inner">
+    <div>
+      <h2>{title}</h2>
+      <p>{text}</p>
+    </div>
+    <a class="btn btn--blue" href={href}>{button}</a>
+  </div>
+</section>

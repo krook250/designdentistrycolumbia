@@ -1,0 +1,127 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Faq from '../components/Faq.astro';
+
+export async function getStaticPaths() {
+  const services = await getCollection('services');
+  const team = await getCollection('team');
+  const blog = (await getCollection('blog')).sort((a, b) => +b.data.date - +a.data.date);
+  return [
+    ...services.map((entry) => ({ params: { slug: entry.id }, props: { kind: 'service', entry } })),
+    ...team.map((entry) => ({ params: { slug: entry.id }, props: { kind: 'team', entry } })),
+    ...blog.map((entry, i) => ({
+      params: { slug: entry.id },
+      props: { kind: 'blog', entry, more: blog.filter((b) => b.id !== entry.id).slice(0, 3) },
+    })),
+  ];
+}
+
+const { kind, entry, more } = Astro.props as any;
+const { Content } = await render(entry);
+const d = entry.data;
+const fmt = (date: Date) => date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+---
+{kind === 'service' && (
+  <Base title={d.metaTitle} description={d.description}>
+    <Hero video={d.heroVideo} poster={d.heroPoster}>
+      <h1>{d.h1}</h1>
+      {d.subtitle && <p>{d.subtitle}</p>}
+    </Hero>
+    <section class="section">
+      <div class="wrap narrow">
+        <article class="prose"><Content /></article>
+        {d.inlineVideo && (
+          <video class="inline-video" controls preload="none" poster={d.inlinePoster} style="margin-top:40px">
+            <source src={d.inlineVideo} type="video/mp4" />
+          </video>
+        )}
+        {d.takeaways && (
+          <aside class="takeaways">
+            <h2>Key Takeaways</h2>
+            <ul>{d.takeaways.map((t: string) => <li>{t}</li>)}</ul>
+          </aside>
+        )}
+        {d.faqs && <Faq faqs={d.faqs} />}
+      </div>
+    </section>
+    <CtaBand />
+  </Base>
+)}
+
+{kind === 'team' && (
+  <Base title={d.metaTitle || `${d.name} - Design Dentistry Columbia`} description={d.description}>
+    {d.heroVideo && <Hero video={d.heroVideo} poster={d.heroPoster} plain />}
+    <section class="section">
+      <div class="wrap">
+        <div class="member">
+          {d.photo && <div class="member__photo"><img src={d.photo} alt={d.name} width="600" height="750" /></div>}
+          <div>
+            <h1 class="member__name">{d.name}</h1>
+            <p class="member__role">{d.role}</p>
+            <div class="prose"><Content /></div>
+            <a class="btn" href="/team">Back to Team</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </Base>
+)}
+
+{kind === 'blog' && (
+  <Base title={d.metaTitle || d.title} description={d.description} image={d.image} type="article">
+    <script type="application/ld+json" slot="head" set:html={JSON.stringify({
+      '@context': 'https://schema.org', '@type': 'BlogPosting', headline: d.title,
+      datePublished: d.date.toISOString(), dateModified: (d.updated || d.date).toISOString(),
+      author: { '@type': 'Person', name: d.author || 'Isaiah Davis' },
+      image: d.image ? new URL(d.image, Astro.site).href : undefined,
+    })} />
+    <section class="post-head">
+      <div class="wrap narrow">
+        <a class="post-head__back" href="/blog">← Blog</a>
+        <h1>{d.title}</h1>
+        <p class="post-head__meta">{fmt(d.date)}</p>
+      </div>
+    </section>
+    <section class="section" style="padding-top:0">
+      <div class="wrap narrow">
+        {d.image && <img class="post-image" src={d.image} alt="" width="1200" height="675" />}
+        <article class="prose"><Content /></article>
+      </div>
+    </section>
+    <CtaBand />
+    <section class="section section--soft">
+      <div class="wrap">
+        <h2 class="center">More from the blog</h2>
+        <div class="grid grid--3" style="margin-top:28px">
+          {more.map((p: any) => (
+            <a class="card" href={`/${p.id}`}>
+              <div class="card__img">{p.data.image && <img src={p.data.image} alt="" loading="lazy" />}</div>
+              <div class="card__body">
+                <p class="card__meta">{fmt(p.data.date)}</p>
+                <h3>{p.data.title}</h3>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  </Base>
+)}
+
+<style>
+  .member { display: grid; grid-template-columns: minmax(0, 420px) 1fr; gap: clamp(28px, 5vw, 64px); align-items: start; }
+  .member__photo { background: var(--green); padding: 18px; border-radius: 2px; }
+  .member__photo img { width: 100%; aspect-ratio: 4/5; object-fit: cover; }
+  .member__name { color: var(--green); margin-bottom: 0; }
+  .member__role { font-family: var(--f-head); font-size: 22px; color: var(--blue); margin-bottom: 1.2em; }
+  @media (max-width: 820px) { .member { grid-template-columns: 1fr; } .member__photo { max-width: 420px; } }
+
+  .post-head { padding: clamp(40px, 6vw, 72px) 0 32px; }
+  .post-head h1 { color: var(--blue); }
+  .post-head__back { font-family: var(--f-head); text-decoration: none; color: var(--green); display: inline-block; margin-bottom: 14px; }
+  .post-head__meta { font-family: var(--f-head); color: var(--muted); text-transform: uppercase; letter-spacing: .05em; font-size: 15px; margin: 0; }
+  .post-image { width: 100%; border-radius: var(--radius); margin-bottom: 36px; aspect-ratio: 16/9; object-fit: cover; }
+</style>

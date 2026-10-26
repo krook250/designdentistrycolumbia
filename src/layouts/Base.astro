@@ -1,0 +1,73 @@
+---
+import '@fontsource/oswald/400.css';
+import '@fontsource/oswald/500.css';
+import '@fontsource/oswald/700.css';
+import '@fontsource/noto-serif/400.css';
+import '@fontsource/noto-serif/400-italic.css';
+import '@fontsource/noto-serif/700.css';
+import '@fontsource/stalemate/400.css';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE } from '../data/site';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  noindex?: boolean;
+  type?: 'website' | 'article';
+}
+const { title, description = SITE.defaultDescription, image = '/images/DD-Logo-icon.png', noindex = false, type = 'website' } = Astro.props;
+const path = Astro.url.pathname.replace(/\.html$/, '').replace(/\/index$/, '') || '/';
+const canonical = new URL(path, Astro.site).href.replace(/\/$/, path === '/' ? '/' : '');
+const ogImage = new URL(image, Astro.site).href;
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  {noindex && <meta name="robots" content="noindex" />}
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" href="/images/DD-Logo-icon.png" />
+  <meta property="og:type" content={type} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={ogImage} />
+  <meta name="twitter:card" content="summary" />
+  <meta name="google-site-verification" content="04uA55duBvYQbyIAVUZ2xwzOLtMlGO6IUsVkSuelx-Q" />
+  <meta name="facebook-domain-verification" content="52ig2r5ta7hz84455bbeh5pavb0wcn" />
+  <slot name="head" />
+
+  <!-- Google Tag Manager (carried over from Duda) -->
+  <script is:inline>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-NP2GPR4J');</script>
+  <!-- Google Analytics 4 (both properties that were on the Duda site) -->
+  <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-Q94NCM54C4"></script>
+  <script is:inline>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-Q94NCM54C4');gtag('config','G-1ERNVVYKDH');</script>
+  <!-- Meta Pixel -->
+  <script is:inline>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','370518235299915');fbq('track','PageView');</script>
+</head>
+<body>
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NP2GPR4J" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=370518235299915&ev=PageView&noscript=1" /></noscript>
+  <a class="sr-only" href="#main">Skip to content</a>
+  <Header />
+  <main id="main">
+    <slot />
+  </main>
+  <Footer />
+
+  <!-- Cherry "Pay over time" floating estimator (as on Duda) -->
+  <script is:inline>
+    (function (w, d, s, o, f, js, fjs) { w[o] = w[o] || function () { (w[o].q = w[o].q || []).push(arguments); }; (js = d.createElement(s)), (fjs = d.getElementsByTagName(s)[0]); js.id = o; js.src = f; js.async = 1; fjs.parentNode.insertBefore(js, fjs); })(window, document, 'script', '_hw', 'https://files.withcherry.com/widgets/widget.js');
+    _hw('init', { debug: false, variables: { slug: 'design-dentistry-columbia', name: 'Design Dentistry Columbia', images: [21], customLogo: '', defaultPurchaseAmount: 2000, customImage: '', imageCategory: 'dental', language: 'en' }, styles: { primaryColor: '#5ca645', secondaryColor: '#5ca64510', fontFamily: 'Montserrat', headerFontFamily: 'Montserrat', floatingEstimator: { position: 'bottom-right', offset: { x: '0px', y: '0px' }, zIndex: 9999, ctaFontFamily: 'Montserrat', bodyFontFamily: 'Montserrat', ctaColor: '#5ca645', ctaTextColor: '#FFFFFF' } } }, ['floatingEstimator']);
+  </script>
+  <!-- UserWay accessibility widget (as on Duda) -->
+  <script is:inline src="https://cdn.userway.org/widget.js" defer></script>
+</body>
+</html>

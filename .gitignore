@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.astro/
+.DS_Store
+_to_delete/
+# Videos live on the server only (220 MB); not in git, not deployed by CI
+public/videos/*.mp4

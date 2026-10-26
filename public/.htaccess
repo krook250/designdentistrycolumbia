@@ -1,0 +1,65 @@
+# Design Dentistry Columbia — Apache rules (GoDaddy cPanel)
+Options -MultiViews -Indexes
+DirectorySlash Off
+DirectoryIndex index.html
+ErrorDocument 404 /404.html
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# --- Canonical host: https + www (only on the real domain, so the temp preview domain still works)
+RewriteCond %{HTTP_HOST} ^designdentistrycolumbia\.com$ [NC]
+RewriteRule ^ https://www.designdentistrycolumbia.com%{REQUEST_URI} [R=301,L]
+RewriteCond %{HTTP_HOST} ^www\.designdentistrycolumbia\.com$ [NC]
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteRule ^ https://www.designdentistrycolumbia.com%{REQUEST_URI} [R=301,L]
+
+# --- Old Duda URLs
+RewriteRule ^home/?$ / [R=301,L]
+RewriteRule ^sitemap\.xml$ /sitemap-index.xml [R=301,L]
+# Mixed-case Duda paths: send lowercase variants to the real page (Apache is case-sensitive)
+RewriteRule ^isaiahdavis/?$ /Isaiahdavis [R=301,L]
+RewriteRule ^procedures/?$ /Procedures [R=301,L]
+RewriteRule ^tooth-fillings/?$ /Tooth-Fillings [R=301,L]
+
+# --- Clean URLs: /page.html -> /page (external requests only)
+RewriteCond %{THE_REQUEST} \s/+(.+?)\.html[\s?] [NC]
+RewriteCond %1 !^404$
+RewriteRule ^ /%1 [R=301,L,NE]
+RewriteCond %{THE_REQUEST} \s/+index(\.html)?[\s?] [NC]
+RewriteRule ^ / [R=301,L]
+
+# --- Strip trailing slash (Duda links used both forms)
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+# --- Serve /page from page.html
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+RewriteRule ^(.+)$ /$1.html [L]
+</IfModule>
+
+# --- Compression + caching
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript text/javascript application/json image/svg+xml application/xml text/xml
+</IfModule>
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 month"
+  ExpiresByType image/png "access plus 1 month"
+  ExpiresByType image/webp "access plus 1 month"
+  ExpiresByType video/mp4 "access plus 1 month"
+</IfModule>
+<IfModule mod_headers.c>
+  <FilesMatch "^_astro/">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>

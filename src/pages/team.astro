@@ -1,0 +1,54 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import CtaBand from '../components/CtaBand.astro';
+const team = (await getCollection('team')).sort((a, b) => a.data.order - b.data.order);
+// Team grid photos as used on the Duda team page
+const gridPhoto: Record<string, string> = {
+  ike: '/images/DSC_6049.jpg', vanessa: '/images/DSC_6091.jpg', cristinemobley: '/images/DSC_6314.jpg',
+  franrivera: '/images/DSC_5951.jpg', kayleeboyd: '/images/DSC_5968.jpg', jeromeharper: '/images/DSC_6136.jpg',
+};
+const order = ['ike', 'vanessa', 'cristinemobley', 'franrivera', 'kayleeboyd', 'jeromeharper'];
+const members = order.map((id) => team.find((t) => t.id === id)!).filter(Boolean);
+---
+<Base title="Design Dentistry Team" description="The Design Dentistry Team and individual Bios">
+  <Hero tall plain video="/videos/Q9ZpvHL8QZCeLoFefBiv_team-13-v.mp4" poster="/images/Q9ZpvHL8QZCeLoFefBiv_team-13.v2.0000000.jpg" />
+  <section class="section">
+    <div class="wrap narrow center intro">
+      <p>Our professional team is passionate about your oral health care. We are here to serve you and your family and anyway we can. Let us know if you have any questions or concerns.</p>
+      <p><strong>We also have several individuals who can speak Spanish and English.</strong></p>
+    </div>
+  </section>
+  <section class="group" style="background-image:url('/images/DSC_5897-1-1.jpg')" aria-label="The Design Dentistry Columbia team"></section>
+  <section class="section">
+    <div class="wrap">
+      <div class="center" style="max-width:720px;margin:0 auto 40px">
+        <h1 class="green">That's us</h1>
+        <p>Every member of our team cares deeply about the quality of health care we provide. For more info on our team members, click on their photo!</p>
+      </div>
+      <div class="people">
+        {members.map((m) => (
+          <a class="person" href={`/${m.id}`}>
+            <img src={gridPhoto[m.id] || m.data.photo} alt={m.data.name} loading="lazy" />
+            <span class="person__name">{m.data.name}</span>
+            <span class="person__role">{m.data.role}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+  <CtaBand />
+</Base>
+<style>
+  .intro { font-size: 22px; }
+  .group { min-height: clamp(280px, 48vw, 640px); background-size: cover; background-position: center 30%; }
+  .people { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  @media (max-width: 900px) { .people { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px) { .people { grid-template-columns: 1fr; } }
+  .person { display: block; text-decoration: none; text-align: center; color: inherit; }
+  .person img { width: 100%; aspect-ratio: 4/5; object-fit: cover; object-position: top; border-radius: var(--radius); transition: transform .2s ease, box-shadow .2s ease; }
+  .person:hover img { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(0,0,0,.12); }
+  .person__name { display: block; font-family: var(--f-head); font-size: 24px; color: var(--green); margin-top: 12px; }
+  .person__role { display: block; font-family: var(--f-head); color: var(--blue); }
+</style>

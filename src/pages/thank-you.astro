@@ -1,0 +1,23 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../data/site';
+---
+<Base title="Thank You - Design Dentistry Columbia" noindex>
+  <section class="section">
+    <div class="wrap narrow center">
+      <h1 class="blue">Your Form Has Been Submitted.</h1>
+      <p style="font-size:21px"><strong>Thank you</strong> for completing our brief survey. At Design Dentistry Columbia, we are devoted to giving you the most choices over your dental care. Our Experienced team will review all your options to help you find which is best for you.</p>
+      <p>- Design Dentistry Columbia Team</p>
+      <p style="margin-top:32px"><a class="btn" href="/">Back to Home</a></p>
+    </div>
+  </section>
+  <section class="section section--soft">
+    <div class="wrap narrow center">
+      <p><strong>{SITE.address}</strong> — Follow The Logo!</p>
+      <video class="inline-video" controls preload="none" poster="/images/U2DsYsVoQ4K1Y71SxpNN_DD-HS-5.v2.0000000.jpg">
+        <source src="/videos/U2DsYsVoQ4K1Y71SxpNN_DD-HS-5-v.mp4" type="video/mp4" />
+      </video>
+      <p style="margin-top:20px">For visual directions of how to get to our office, please watch the above video. See you soon!</p>
+    </div>
+  </section>
+</Base>
