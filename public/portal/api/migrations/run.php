@@ -37,6 +37,9 @@ try {
         $db['user'], $db['pass'],
         [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_EMULATE_PREPARES => false]
     );
+    $pdo->exec("SET time_zone = '+00:00'");
+    // Strict mode: a value that doesn't fit is an error, never silently cut short.
+    $pdo->exec("SET SESSION sql_mode = 'STRICT_ALL_TABLES,NO_ZERO_DATE,NO_ZERO_IN_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION'");
 } catch (Throwable $e) {
     out(500, ['error' => 'Database connection failed', 'detail' => $e->getMessage()]);
 }

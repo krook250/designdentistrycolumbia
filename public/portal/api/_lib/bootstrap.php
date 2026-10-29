@@ -14,7 +14,9 @@ header('X-Content-Type-Options: nosniff');
 function config(): array {
     static $cfg = null;
     if ($cfg === null) {
-        $path = getenv('PORTAL_CONFIG') ?: dirname($_SERVER['DOCUMENT_ROOT']) . '/portal-config.php';
+        // Web: one level above the web root. CLI (cron): four levels above this file.
+        $root = !empty($_SERVER['DOCUMENT_ROOT']) ? dirname($_SERVER['DOCUMENT_ROOT']) : dirname(__DIR__, 4);
+        $path = getenv('PORTAL_CONFIG') ?: $root . '/portal-config.php';
         if (!is_file($path)) json_out(500, ['error' => 'Portal is not configured yet.']);
         $cfg = require $path;
     }
@@ -35,6 +37,10 @@ function db(): PDO {
                     PDO::ATTR_EMULATE_PREPARES => false,
                 ]
             );
+            // Every timestamp the portal writes or compares is UTC.
+            $pdo->exec("SET time_zone = '+00:00'");
+            // Strict mode: a value that doesn't fit is an error, never silently cut short.
+            $pdo->exec("SET SESSION sql_mode = 'STRICT_ALL_TABLES,NO_ZERO_DATE,NO_ZERO_IN_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION'");
         } catch (Throwable $e) {
             error_log('portal db: ' . $e->getMessage());
             json_out(500, ['error' => 'Database unavailable.']);
