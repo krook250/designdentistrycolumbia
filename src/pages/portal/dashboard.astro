@@ -1,0 +1,47 @@
+---
+import PortalApp from '../../layouts/PortalApp.astro';
+---
+<PortalApp title="Dashboard" active="dashboard">
+  <header class="p-pagehead">
+    <div>
+      <p style="margin:0 0 4px" data-today></p>
+      <h1><span data-greeting>Hello</span>, <span data-user-name></span></h1>
+    </div>
+  </header>
+
+  <section class="p-stats" aria-label="At a glance">
+    <div class="p-stat"><span class="p-stat__label">New leads this week</span><span class="p-stat__value">—</span><span class="p-stat__sub">Leads arrive here next</span></div>
+    <div class="p-stat"><span class="p-stat__label">Unread texts</span><span class="p-stat__value">—</span><span class="p-stat__sub">After Twilio is connected</span></div>
+    <div class="p-stat"><span class="p-stat__label">On the calendar today</span><span class="p-stat__value">—</span><span class="p-stat__sub">After Google Calendar is connected</span></div>
+    <div class="p-stat"><span class="p-stat__label">Blog posts</span><span class="p-stat__value">140</span><span class="p-stat__sub">Published on the website</span></div>
+  </section>
+
+  <section class="p-panel">
+    <div class="p-panel__head"><h2>What's set up</h2></div>
+    <ul class="checklist">
+      <li class="is-done"><span class="dot" aria-hidden="true"></span><span><strong>Staff portal and sign-in</strong><small>You're in.</small></span></li>
+      <li><span class="dot" aria-hidden="true"></span><span><strong>Leads</strong><small>Website form submissions land here.</small></span></li>
+      <li><span class="dot" aria-hidden="true"></span><span><strong>Texting</strong><small>Twilio number and business texting registration.</small></span></li>
+      <li><span class="dot" aria-hidden="true"></span><span><strong>Calendar</strong><small>Office, Dr. Ike and Marketing calendars from Google.</small></span></li>
+      <li><span class="dot" aria-hidden="true"></span><span><strong>Blog editor</strong><small>Write and publish posts without touching code.</small></span></li>
+    </ul>
+  </section>
+</PortalApp>
+
+<style>
+  .checklist { list-style: none; margin: 0; padding: 6px 20px 14px; }
+  .checklist li { display: flex; gap: 14px; align-items: flex-start; padding: 12px 0; border-top: 1px solid var(--p-line-soft); }
+  .checklist li:first-child { border-top: 0; }
+  .checklist span:last-child { display: flex; flex-direction: column; gap: 2px; }
+  .checklist strong { font-size: 15px; font-weight: 600; }
+  .checklist small { font-size: 13px; color: var(--p-muted); }
+  .dot { width: 22px; height: 22px; flex: none; margin-top: 1px; border-radius: 50%; border: 2px solid var(--p-input); }
+  .is-done .dot { border-color: var(--p-green-text); background: var(--p-green-text) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.2'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center/14px no-repeat; }
+</style>
+
+<script>
+  import { requireUser, greeting } from '../../scripts/portal';
+  document.querySelector('[data-greeting]')!.textContent = greeting();
+  document.querySelector('[data-today]')!.textContent = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+  requireUser();
+</script>

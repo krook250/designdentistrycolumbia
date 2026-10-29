@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
 Disallow: /thank-you
+Disallow: /portal
 
 Sitemap: https://www.designdentistrycolumbia.com/sitemap-index.xml

@@ -1,0 +1,9 @@
+# Portal API: JSON only, never cached, never indexed.
+<IfModule mod_headers.c>
+  Header always set Cache-Control "no-store"
+  Header always set X-Robots-Tag "noindex, nofollow"
+</IfModule>
+# Keep the site's .html rewrite rules away from API files.
+<IfModule mod_rewrite.c>
+  RewriteEngine Off
+</IfModule>

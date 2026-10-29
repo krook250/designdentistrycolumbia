@@ -1,0 +1,59 @@
+---
+import PortalBase from '../../layouts/PortalBase.astro';
+---
+<PortalBase title="First-time setup">
+  <main class="p-auth">
+    <form class="p-card-auth" id="setup" novalidate>
+      <header>
+        <img src="/images/DD-Logo-icon.png" alt="" width="56" height="56" />
+        <h1>Create the owner account</h1>
+        <p>One-time setup. This page closes once an account exists.</p>
+      </header>
+      <div class="p-alert p-alert--error" role="alert" hidden data-error></div>
+      <label class="p-field">Setup key
+        <input class="p-input" type="password" name="setup_key" autocomplete="off" required />
+        <span class="p-hint">The migrate key from the portal config file.</span>
+      </label>
+      <label class="p-field">Name
+        <input class="p-input" type="text" name="name" autocomplete="name" required />
+      </label>
+      <label class="p-field">Email
+        <input class="p-input" type="email" name="email" autocomplete="username" required />
+      </label>
+      <label class="p-field">Password
+        <input class="p-input" type="password" name="password" autocomplete="new-password" minlength="10" required />
+        <span class="p-hint">At least 10 characters.</span>
+      </label>
+      <button class="p-btn p-btn--primary p-btn--block" type="submit">Create account</button>
+    </form>
+  </main>
+</PortalBase>
+
+<script>
+  import { api, ApiError } from '../../scripts/portal';
+
+  const form = document.getElementById('setup') as HTMLFormElement;
+  const err = form.querySelector<HTMLElement>('[data-error]')!;
+  const btn = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+
+  // Setup already done? Send people to sign in.
+  api('me.php').then(() => location.replace('/portal/dashboard')).catch((e) => {
+    if (e instanceof ApiError && e.status === 401 && !e.body?.needs_setup) location.replace('/portal/login');
+  });
+
+  form.addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    err.hidden = true;
+    const fd = new FormData(form);
+    btn.disabled = true;
+    try {
+      await api('setup.php', { body: Object.fromEntries(fd) });
+      await api('login.php', { body: { email: fd.get('email'), password: fd.get('password') } });
+      location.replace('/portal/dashboard');
+    } catch (e) {
+      err.textContent = (e as Error).message;
+      err.hidden = false;
+      btn.disabled = false;
+    }
+  });
+</script>

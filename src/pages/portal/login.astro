@@ -1,0 +1,54 @@
+---
+import PortalBase from '../../layouts/PortalBase.astro';
+---
+<PortalBase title="Sign in">
+  <main class="p-auth">
+    <form class="p-card-auth" id="login" novalidate>
+      <header>
+        <img src="/images/DD-Logo-icon.png" alt="" width="56" height="56" />
+        <h1>Staff Portal</h1>
+        <p>Design Dentistry Columbia</p>
+      </header>
+      <div class="p-alert p-alert--error" role="alert" hidden data-error></div>
+      <label class="p-field">Email
+        <input class="p-input" type="email" name="email" autocomplete="username" required />
+      </label>
+      <label class="p-field">Password
+        <input class="p-input" type="password" name="password" autocomplete="current-password" required />
+      </label>
+      <button class="p-btn p-btn--primary p-btn--block" type="submit">Sign in</button>
+      <p class="p-hint" style="margin:0;text-align:center">Forgot your password? Ask the practice owner to reset it.</p>
+    </form>
+    <a class="p-auth__back" href="/">Back to designdentistrycolumbia.com</a>
+  </main>
+</PortalBase>
+
+<script>
+  import { api, ApiError } from '../../scripts/portal';
+
+  const form = document.getElementById('login') as HTMLFormElement;
+  const err = form.querySelector<HTMLElement>('[data-error]')!;
+  const btn = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+
+  // Already signed in? Go straight in. First run? Go to setup.
+  api('me.php').then(() => location.replace('/portal/dashboard')).catch((e) => {
+    if (e instanceof ApiError && e.body?.needs_setup) location.replace('/portal/setup');
+  });
+
+  form.addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    err.hidden = true;
+    const fd = new FormData(form);
+    btn.disabled = true;
+    btn.textContent = 'Signing in…';
+    try {
+      await api('login.php', { body: { email: fd.get('email'), password: fd.get('password') } });
+      location.replace('/portal/dashboard');
+    } catch (e) {
+      err.textContent = (e as Error).message;
+      err.hidden = false;
+      btn.disabled = false;
+      btn.textContent = 'Sign in';
+    }
+  });
+</script>

@@ -5,9 +5,9 @@ DirectoryIndex index.html
 ErrorDocument 404 /404.html
 
 # Deploy bookkeeping file — not public
-<Files ".ftp-deploy-sync-state.json">
+<FilesMatch "^\.ftp-deploy">
   Require all denied
-</Files>
+</FilesMatch>
 
 <IfModule mod_rewrite.c>
 RewriteEngine On
@@ -19,6 +19,9 @@ RewriteCond %{HTTP_HOST} ^www\.designdentistrycolumbia\.com$ [NC]
 RewriteCond %{HTTPS} off
 RewriteCond %{HTTP:X-Forwarded-Proto} !https
 RewriteRule ^ https://www.designdentistrycolumbia.com%{REQUEST_URI} [R=301,L]
+
+# --- Staff portal entry
+RewriteRule ^portal/?$ /portal/dashboard [R=302,L]
 
 # --- Old Duda URLs
 RewriteRule ^home/?$ / [R=301,L]

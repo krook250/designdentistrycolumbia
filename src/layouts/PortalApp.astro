@@ -1,0 +1,21 @@
+---
+// Signed-in shell: sidebar + main. The page stays hidden until the session check passes.
+import PortalBase from './PortalBase.astro';
+import Sidebar from '../components/portal/Sidebar.astro';
+interface Props { title: string; active: string; }
+const { title, active } = Astro.props;
+---
+<PortalBase title={title}>
+  <script is:inline>document.documentElement.setAttribute('data-guard', '');</script>
+  <div class="p-app">
+    <Sidebar active={active} />
+    <main class="p-main" id="main">
+      <slot />
+    </main>
+  </div>
+</PortalBase>
+
+<script>
+  import { signOut } from '../scripts/portal';
+  document.querySelectorAll('[data-sign-out]').forEach((b) => b.addEventListener('click', () => signOut()));
+</script>

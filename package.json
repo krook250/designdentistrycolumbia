@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",
+    "@fontsource/inter": "5.2.5",
     "@fontsource/noto-serif": "5.2.5",
     "@fontsource/oswald": "5.2.5",
     "@fontsource/stalemate": "5.2.5",
