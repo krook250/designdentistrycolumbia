@@ -1,0 +1,4 @@
+# Only run.php is reachable; the .sql files never are.
+<FilesMatch "\.sql$">
+  Require all denied
+</FilesMatch>

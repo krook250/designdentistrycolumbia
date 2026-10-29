@@ -1,0 +1,45 @@
+name: Migrate database
+
+# Run this BEFORE deploying code that needs the new tables.
+# Uploads only the migrations folder, then applies anything pending.
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Only list pending migrations'
+        type: boolean
+        default: false
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Upload migrations
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          port: 21
+          local-dir: ./public/portal/api/migrations/
+          server-dir: ./portal/api/migrations/
+          state-name: .ftp-deploy-migrations-state.json
+
+      - name: Apply migrations
+        env:
+          SITE_URL: ${{ secrets.SITE_URL }}
+          MIGRATE_KEY: ${{ secrets.MIGRATE_KEY }}
+        run: |
+          url="${SITE_URL%/}/portal/api/migrations/run.php"
+          if [ "${{ inputs.dry_run }}" = "true" ]; then url="$url?dry=1"; fi
+          code=$(curl -sS -o result.json -w '%{http_code}' -X POST -H "X-Migrate-Key: $MIGRATE_KEY" "$url")
+          cat result.json
+          echo
+          test "$code" = "200"
