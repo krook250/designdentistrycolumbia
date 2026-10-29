@@ -4,19 +4,6 @@ import { z } from 'astro/zod';
 
 const faq = z.object({ q: z.string(), a: z.string() });
 
-const blog = defineCollection({
-  loader: glob({ pattern: '*.md', base: './src/content/blog' }),
-  schema: z.object({
-    title: z.string(),
-    metaTitle: z.string().optional(),
-    description: z.string().optional(),
-    date: z.coerce.date(),
-    updated: z.coerce.date().optional(),
-    author: z.string().optional(),
-    image: z.string().optional(),
-  }),
-});
-
 const services = defineCollection({
   loader: glob({ pattern: '*.md', base: './src/content/services' }),
   schema: z.object({
@@ -47,4 +34,4 @@ const team = defineCollection({
   }),
 });
 
-export const collections = { blog, services, team };
+export const collections = { services, team };

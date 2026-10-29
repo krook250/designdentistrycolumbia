@@ -4,25 +4,27 @@ import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
 import CtaBand from '../components/CtaBand.astro';
 import Faq from '../components/Faq.astro';
+import { getPosts } from '../lib/posts';
 
 export async function getStaticPaths() {
   const services = await getCollection('services');
   const team = await getCollection('team');
-  const blog = (await getCollection('blog')).sort((a, b) => +b.data.date - +a.data.date);
+  const blog = (await getPosts()).sort((a, b) => +b.date - +a.date);
   return [
     ...services.map((entry) => ({ params: { slug: entry.id }, props: { kind: 'service', entry } })),
     ...team.map((entry) => ({ params: { slug: entry.id }, props: { kind: 'team', entry } })),
-    ...blog.map((entry, i) => ({
-      params: { slug: entry.id },
-      props: { kind: 'blog', entry, more: blog.filter((b) => b.id !== entry.id).slice(0, 3) },
+    ...blog.map((post) => ({
+      params: { slug: post.slug },
+      props: { kind: 'blog', post, more: blog.filter((b) => b.slug !== post.slug).slice(0, 3) },
     })),
   ];
 }
 
-const { kind, entry, more } = Astro.props as any;
-const { Content } = await render(entry);
-const d = entry.data;
-const fmt = (date: Date) => date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+const { kind, entry, post, more } = Astro.props as any;
+const Content = entry ? (await render(entry)).Content : null;
+const d = entry ? entry.data : post;
+// Dates show in the practice's time zone.
+const fmt = (date: Date) => date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'America/New_York' });
 ---
 {kind === 'service' && (
   <Base title={d.metaTitle} description={d.description}>
@@ -71,7 +73,7 @@ const fmt = (date: Date) => date.toLocaleDateString('en-US', { year: 'numeric', 
 )}
 
 {kind === 'blog' && (
-  <Base title={d.metaTitle || d.title} description={d.description} image={d.image} type="article">
+  <Base title={d.metaTitle || d.title} description={d.description} image={d.image ?? undefined} type="article">
     <script type="application/ld+json" slot="head" set:html={JSON.stringify({
       '@context': 'https://schema.org', '@type': 'BlogPosting', headline: d.title,
       datePublished: d.date.toISOString(), dateModified: (d.updated || d.date).toISOString(),
@@ -88,7 +90,7 @@ const fmt = (date: Date) => date.toLocaleDateString('en-US', { year: 'numeric', 
     <section class="section" style="padding-top:0">
       <div class="wrap narrow">
         {d.image && <img class="post-image" src={d.image} alt="" width="1200" height="675" />}
-        <article class="prose"><Content /></article>
+        <article class="prose" set:html={d.html} />
       </div>
     </section>
     <CtaBand />
@@ -97,11 +99,11 @@ const fmt = (date: Date) => date.toLocaleDateString('en-US', { year: 'numeric', 
         <h2 class="center">More from the blog</h2>
         <div class="grid grid--3" style="margin-top:28px">
           {more.map((p: any) => (
-            <a class="card" href={`/${p.id}`}>
-              <div class="card__img">{p.data.image && <img src={p.data.image} alt="" loading="lazy" />}</div>
+            <a class="card" href={`/${p.slug}`}>
+              <div class="card__img">{p.image && <img src={p.image} alt="" loading="lazy" />}</div>
               <div class="card__body">
-                <p class="card__meta">{fmt(p.data.date)}</p>
-                <h3>{p.data.title}</h3>
+                <p class="card__meta">{fmt(p.date)}</p>
+                <h3>{p.title}</h3>
               </div>
             </a>
           ))}

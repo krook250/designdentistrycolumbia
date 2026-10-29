@@ -1,8 +1,8 @@
 ---
-import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-const posts = (await getCollection('blog')).sort((a, b) => +b.data.date - +a.data.date);
-const fmt = (d: Date) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' });
+import { getPosts } from '../lib/posts';
+const posts = (await getPosts()).sort((a, b) => +b.date - +a.date);
+const fmt = (d: Date) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'America/New_York' });
 ---
 <Base title="Blog - Design Dentistry Columbia" description="Articles from Design Dentistry Columbia on cosmetic, restorative and general dentistry in Columbia, SC.">
   <section class="section">
@@ -10,12 +10,12 @@ const fmt = (d: Date) => d.toLocaleDateString('en-US', { year: 'numeric', month:
       <h1 class="center blue">Blog</h1>
       <div class="grid grid--3" style="margin-top:36px">
         {posts.map((p, i) => (
-          <a class="card" href={`/${p.id}`}>
-            <div class="card__img">{p.data.image ? <img src={p.data.image} alt="" loading={i < 6 ? 'eager' : 'lazy'} /> : <img src="/images/DD-Logo-icon.png" alt="" class="card__placeholder" loading="lazy" />}</div>
+          <a class="card" href={`/${p.slug}`}>
+            <div class="card__img">{p.image ? <img src={p.image} alt="" loading={i < 6 ? 'eager' : 'lazy'} /> : <img src="/images/DD-Logo-icon.png" alt="" class="card__placeholder" loading="lazy" />}</div>
             <div class="card__body">
-              <p class="card__meta">{fmt(p.data.date)}</p>
-              <h3>{p.data.title}</h3>
-              {p.data.description && <p>{p.data.description.length > 150 ? p.data.description.slice(0, 150).replace(/\s+\S*$/, '') + '…' : p.data.description}</p>}
+              <p class="card__meta">{fmt(p.date)}</p>
+              <h3>{p.title}</h3>
+              {p.description && <p>{p.description.length > 150 ? p.description.slice(0, 150).replace(/\s+\S*$/, '') + '…' : p.description}</p>}
             </div>
           </a>
         ))}

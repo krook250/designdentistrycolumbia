@@ -4,7 +4,11 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # Sent by the staff portal when a blog post is published, updated or unpublished.
+  repository_dispatch:
+    types: [publish]
 
+# One deploy at a time. If several publishes land during a build, they collapse into one follow-up run.
 concurrency:
   group: deploy
   cancel-in-progress: false
@@ -21,7 +25,11 @@ jobs:
           cache: npm
 
       - run: npm ci
+      # The build pulls blog posts from the portal. BUILD_KEY also tells the portal a build happened.
       - run: npm run build
+        env:
+          PORTAL_API: ${{ secrets.SITE_URL }}
+          BUILD_KEY: ${{ secrets.MIGRATE_KEY }}
 
       # Uploads only changed files (tracks hashes in .ftp-deploy-sync-state.json on the server).
       # Never deletes files it didn't upload, so the videos already on the server are left alone.

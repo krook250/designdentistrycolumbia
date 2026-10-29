@@ -1,0 +1,200 @@
+---
+import PortalApp from '../../layouts/PortalApp.astro';
+// The writing area uses the website's own fonts, so a post looks here the way it will live.
+import '@fontsource/noto-serif/400.css';
+import '@fontsource/noto-serif/400-italic.css';
+import '@fontsource/noto-serif/700.css';
+import '@fontsource/oswald/500.css';
+import '@fontsource/oswald/700.css';
+---
+<PortalApp title="Edit post" active="blog">
+  <header class="top">
+    <a class="back" href="/portal/blog">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+      All posts
+    </a>
+    <div class="actions">
+      <span class="state" data-state aria-live="polite"></span>
+      <a class="p-btn" href="#" target="_blank" rel="noopener" data-view hidden>View on site</a>
+      <button type="button" class="p-btn" data-save>Save draft</button>
+      <button type="button" class="p-btn p-btn--primary" data-publish>Publish</button>
+    </div>
+  </header>
+
+  <div class="p-alert" role="status" hidden data-flash></div>
+
+  <div class="layout">
+    <section class="p-panel doc" aria-label="Post">
+      <div class="head">
+        <label class="sr-only" for="title">Title</label>
+        <textarea id="title" class="title" rows="1" placeholder="Post title" data-title></textarea>
+        <div class="url">
+          <span>designdentistrycolumbia.com/</span><span class="slug" data-slug-text></span>
+          <button type="button" class="link-btn" data-slug-edit>Edit</button>
+          <span class="locked" data-slug-locked hidden>Locked once published, so links keep working.</span>
+        </div>
+        <div class="slug-edit" data-slug-row hidden>
+          <label class="sr-only" for="slug">Web address</label>
+          <input id="slug" class="p-input" data-slug-input />
+          <button type="button" class="p-btn p-btn--sm" data-slug-done>Done</button>
+        </div>
+      </div>
+
+      <div class="toolbar" role="toolbar" aria-label="Formatting" data-toolbar>
+        <button type="button" data-cmd="h2" aria-label="Heading" title="Heading">H2</button>
+        <button type="button" data-cmd="h3" aria-label="Subheading" title="Subheading">H3</button>
+        <span class="sep" aria-hidden="true"></span>
+        <button type="button" data-cmd="bold" aria-label="Bold" title="Bold"><b>B</b></button>
+        <button type="button" data-cmd="italic" aria-label="Italic" title="Italic"><i style="font-family:Georgia,serif">I</i></button>
+        <button type="button" data-cmd="link" aria-label="Link" title="Link"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg></button>
+        <button type="button" data-cmd="bullet" aria-label="Bulleted list" title="Bulleted list"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1" fill="currentColor"/><circle cx="4.5" cy="12" r="1" fill="currentColor"/><circle cx="4.5" cy="18" r="1" fill="currentColor"/></svg></button>
+        <button type="button" data-cmd="ordered" aria-label="Numbered list" title="Numbered list"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 6h10M10 12h10M10 18h10"/><path d="M4 5h1.5v4M4 9h3M4 14.5c.6-.7 2.8-.8 2.8.6 0 1-2.8 2-2.8 2.9h3" stroke-width="1.5"/></svg></button>
+        <button type="button" data-cmd="quote" aria-label="Quote" title="Quote"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 8h4v4H8v4M14 8h4v4h-3v4"/></svg></button>
+        <button type="button" data-cmd="image" aria-label="Insert image" title="Insert image"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-9 8"/></svg></button>
+        <span class="sep" aria-hidden="true"></span>
+        <button type="button" data-cmd="undo" aria-label="Undo" title="Undo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg></button>
+        <button type="button" data-cmd="redo" aria-label="Redo" title="Redo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 14l5-5-5-5"/><path d="M20 9H9a5 5 0 0 0 0 10h3"/></svg></button>
+        <input type="file" accept="image/jpeg,image/png,image/webp,image/gif" hidden data-inline-file />
+      </div>
+
+      <div class="linkbar" data-linkbar hidden>
+        <label class="sr-only" for="link-url">Link address</label>
+        <input id="link-url" class="p-input" placeholder="https://… or /dental-veneers" data-link-url />
+        <button type="button" class="p-btn p-btn--sm p-btn--primary" data-link-apply>Apply</button>
+        <button type="button" class="p-btn p-btn--sm" data-link-remove>Remove link</button>
+      </div>
+
+      <div class="editor prose-like" data-editor></div>
+    </section>
+
+    <aside class="side" aria-label="Post settings">
+      <section class="p-panel box">
+        <h2>Publishing</h2>
+        <fieldset class="when" data-when>
+          <legend class="sr-only">When</legend>
+          <label><input type="radio" name="when" value="now" checked /> Publish now</label>
+          <label><input type="radio" name="when" value="later" /> Schedule for later</label>
+        </fieldset>
+        <label class="p-field" data-at-row hidden>Go live at
+          <input class="p-input" type="datetime-local" data-at />
+          <span class="p-hint">Your computer’s time zone.</span>
+        </label>
+        <label class="p-field">Author
+          <select class="p-input" data-author>
+            <option>Dr. Isaiah Davis</option>
+            <option>Design Dentistry Team</option>
+          </select>
+        </label>
+        <p class="p-hint" style="margin:0">The website updates about a minute after you publish.</p>
+      </section>
+
+      <section class="p-panel box">
+        <h2>Featured image</h2>
+        <div class="feat" data-feat>
+          <img alt="" data-feat-img hidden />
+          <button type="button" class="drop" data-feat-pick>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5B6870" stroke-width="1.8" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5M4 20h16"/></svg>
+            <span data-feat-label>Upload an image</span>
+          </button>
+          <button type="button" class="link-btn" data-feat-remove hidden>Remove image</button>
+          <input type="file" accept="image/jpeg,image/png,image/webp" hidden data-feat-file />
+        </div>
+      </section>
+
+      <section class="p-panel box">
+        <h2>Google preview</h2>
+        <label class="p-field">Description
+          <textarea class="p-input" rows="4" data-desc placeholder="One or two sentences on what the post covers."></textarea>
+        </label>
+        <span class="p-hint count" data-desc-count></span>
+        <div class="serp">
+          <span class="serp__url" data-serp-url></span>
+          <span class="serp__title" data-serp-title></span>
+          <span class="serp__desc" data-serp-desc></span>
+        </div>
+      </section>
+
+      <section class="p-panel box" data-danger hidden>
+        <button type="button" class="p-btn p-btn--danger-text" data-unpublish hidden>Unpublish (take off the site)</button>
+        <button type="button" class="p-btn p-btn--danger-text" data-delete hidden>Delete draft</button>
+      </section>
+    </aside>
+  </div>
+</PortalApp>
+
+<style>
+  .top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+  .back { font-size: 14px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+  .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+  .state { font-size: 13px; color: var(--p-muted); }
+  .layout { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; }
+  .doc { flex: 3 1 560px; min-width: 0; overflow: hidden; }
+  .side { flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+  .box { padding: 18px 20px; display: flex; flex-direction: column; gap: 14px; }
+  .box h2 { font-size: 15px; font-weight: 600; }
+
+  .head { padding: 28px 36px 10px; display: flex; flex-direction: column; gap: 8px; }
+  .title { border: 0; padding: 0; resize: none; overflow: hidden; font-family: 'Oswald', 'Arial Narrow', sans-serif; font-weight: 700; font-size: 34px; line-height: 1.2; color: #1f72a6; background: transparent; }
+  .title:focus { outline: none; }
+  .title::placeholder { color: #9fb3c2; }
+  .url { font-size: 13px; color: var(--p-muted); display: flex; flex-wrap: wrap; align-items: center; gap: 0; }
+  .slug { color: var(--p-text); font-weight: 600; overflow-wrap: anywhere; }
+  .locked { margin-left: 8px; }
+  .link-btn { border: 0; background: none; color: var(--p-blue); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; padding: 6px; }
+  .slug-edit { display: flex; gap: 8px; align-items: center; }
+  .slug-edit input { height: 38px; font-size: 14px; }
+
+  .toolbar { position: sticky; top: 0; z-index: 2; display: flex; flex-wrap: wrap; gap: 2px; padding: 6px 30px; border-top: 1px solid var(--p-line-soft); border-bottom: 1px solid var(--p-line-soft); background: #fafbfc; }
+  .toolbar button { min-width: 40px; height: 40px; padding: 0 8px; border: 0; border-radius: 8px; background: transparent; color: var(--p-text-2); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; font: 700 14px Inter, system-ui, sans-serif; }
+  .toolbar button:hover { background: #eef3f6; color: var(--p-text); }
+  .toolbar button.is-on { background: var(--p-blue-soft); color: var(--p-blue); }
+  .toolbar button:disabled { opacity: .4; cursor: default; }
+  .sep { width: 1px; margin: 8px 6px; background: var(--p-line); }
+  .linkbar { display: flex; flex-wrap: wrap; gap: 8px; padding: 10px 30px; background: #f2f7fb; border-bottom: 1px solid var(--p-line-soft); }
+  .linkbar input { flex: 1 1 260px; height: 38px; font-size: 14px; }
+
+  /* Writing area = the website's article styles */
+  .editor { padding: 28px 36px 48px; min-height: 520px; }
+  .editor :global(.ProseMirror) { outline: none; min-height: 480px; font-family: 'Noto Serif', Georgia, serif; font-size: 18px; line-height: 1.7; color: #222; }
+  .editor :global(.ProseMirror > *:first-child) { margin-top: 0; }
+  .editor :global(.ProseMirror p) { margin: 0 0 1em; }
+  .editor :global(.ProseMirror h2) { font-family: 'Oswald', 'Arial Narrow', sans-serif; font-weight: 700; font-size: 28px; line-height: 1.2; color: #1f72a6; margin: 1.5em 0 .45em; }
+  .editor :global(.ProseMirror h3), .editor :global(.ProseMirror h4) { font-family: 'Oswald', 'Arial Narrow', sans-serif; font-weight: 700; font-size: 22px; color: #1f72a6; margin: 1.3em 0 .4em; }
+  .editor :global(.ProseMirror ul), .editor :global(.ProseMirror ol) { padding-left: 1.3em; margin: 0 0 1.2em; }
+  .editor :global(.ProseMirror li p) { margin: .2em 0; }
+  .editor :global(.ProseMirror a) { color: #1f72a6; }
+  .editor :global(.ProseMirror blockquote) { margin: 1.5em 0; padding: .2em 0 .2em 1em; border-left: 4px solid #5ca645; color: #5f6b70; }
+  .editor :global(.ProseMirror img) { max-width: 100%; height: auto; border-radius: 4px; margin: 1.2em auto; display: block; }
+  .editor :global(.ProseMirror img.ProseMirror-selectednode) { outline: 3px solid var(--p-blue); }
+  .editor :global(.ProseMirror p.is-editor-empty:first-child::before) { content: attr(data-placeholder); color: #9aa6ad; float: left; height: 0; pointer-events: none; }
+  .editor :global(.ProseMirror table) { border-collapse: collapse; width: 100%; font-size: 16px; }
+  .editor :global(.ProseMirror td), .editor :global(.ProseMirror th) { border: 1px solid var(--p-line); padding: 6px 8px; }
+
+  .when { border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+  .when label { display: flex; align-items: center; gap: 10px; font-size: 14px; min-height: 32px; cursor: pointer; }
+  .when input { accent-color: var(--p-blue); width: 18px; height: 18px; margin: 0; }
+  select.p-input { appearance: auto; }
+
+  .feat { display: flex; flex-direction: column; gap: 10px; }
+  .feat img { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: 10px; }
+  .drop { height: 120px; border: 2px dashed #cbd5db; border-radius: 12px; background: #fafbfc; color: var(--p-text-2); font: 500 14px Inter, system-ui, sans-serif; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
+  .feat img:not([hidden]) + .drop { height: 44px; flex-direction: row; border-style: solid; border-width: 1px; }
+  .feat img:not([hidden]) + .drop svg { display: none; }
+
+  .count { align-self: flex-end; margin-top: -8px; }
+  .serp { padding: 12px 14px; border-radius: 10px; background: var(--p-bg); display: flex; flex-direction: column; gap: 2px; }
+  .serp__url { font-size: 12px; color: var(--p-text-2); overflow-wrap: anywhere; }
+  .serp__title { font-size: 16px; color: #1a0dab; }
+  .serp__desc { font-size: 13px; color: var(--p-text-2); line-height: 1.45; }
+
+  @media (max-width: 700px) {
+    .head, .editor { padding-left: 18px; padding-right: 18px; }
+    .toolbar, .linkbar { padding-left: 12px; padding-right: 12px; }
+    .title { font-size: 28px; }
+  }
+</style>
+
+<script>
+  import { initPostEditor } from '../../scripts/post-editor';
+  initPostEditor();
+</script>
