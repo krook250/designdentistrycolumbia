@@ -105,20 +105,61 @@ function current_user(): ?array {
         $_SESSION = [];
         return null;
     }
-    $_SESSION['seen'] = time();
-    $st = db()->prepare('SELECT id, email, name, role FROM users WHERE id = ? AND active = 1');
+    $st = db()->prepare('SELECT id, email, name, role, must_change_password, password_changed_at FROM users WHERE id = ? AND active = 1');
     $st->execute([$uid]);
     $u = $st->fetch();
-    return $u ?: null;
+    // Deactivated, deleted, or password changed since this session began: sign out.
+    if (!$u || (string)($u['password_changed_at'] ?? '') !== (string)($_SESSION['pwv'] ?? '')) {
+        $_SESSION = [];
+        return null;
+    }
+    $_SESSION['seen'] = time();
+    return $u;
 }
 
-function require_user(?string $role = null): array {
+/**
+ * $role 'owner' = owners only. $allowPending = true lets someone who still has to
+ * set their own password through (only the account/password endpoints use it).
+ */
+function require_user(?string $role = null, bool $allowPending = false): array {
     $u = current_user();
     if (!$u) json_out(401, ['error' => 'Sign in required.']);
+    if (!$allowPending && (int)$u['must_change_password'] === 1) {
+        json_out(403, ['error' => 'Set your own password first.', 'must_change_password' => true]);
+    }
     if ($role === 'owner' && $u['role'] !== 'owner') json_out(403, ['error' => 'Owners only.']);
     return $u;
 }
 
+/** Start a fresh signed-in session for $u (call after verifying the password). */
+function sign_in(array $u): void {
+    start_session();
+    session_regenerate_id(true);
+    $_SESSION = ['uid' => (int)$u['id'], 'seen' => time(), 'pwv' => (string)($u['password_changed_at'] ?? '')];
+}
+
 function public_user(array $u): array {
-    return ['id' => (int)$u['id'], 'email' => $u['email'], 'name' => $u['name'], 'role' => $u['role']];
+    return [
+        'id' => (int)$u['id'],
+        'email' => $u['email'],
+        'name' => $u['name'],
+        'role' => $u['role'],
+        'must_change_password' => (int)($u['must_change_password'] ?? 0) === 1,
+    ];
+}
+
+/** Readable temporary password: 4 groups of 4, no look-alike characters. */
+function temp_password(): string {
+    $alphabet = 'abcdefghjkmnpqrstuvwxyz23456789';
+    $groups = [];
+    for ($g = 0; $g < 4; $g++) {
+        $s = '';
+        for ($i = 0; $i < 4; $i++) $s .= $alphabet[random_int(0, strlen($alphabet) - 1)];
+        $groups[] = $s;
+    }
+    return implode('-', $groups);
+}
+
+function active_owner_count(): int {
+    return (int)db()->query("SELECT COUNT(*) FROM users WHERE role = 'owner' AND active = 1")->fetchColumn();
 }

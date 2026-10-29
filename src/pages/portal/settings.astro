@@ -1,0 +1,265 @@
+---
+import PortalApp from '../../layouts/PortalApp.astro';
+---
+<PortalApp title="Settings" active="settings">
+  <header class="p-pagehead">
+    <div>
+      <h1>Settings</h1>
+      <p>Who can sign in to the portal</p>
+    </div>
+  </header>
+
+  <section class="p-panel" aria-labelledby="staff-h">
+    <div class="p-panel__head">
+      <div>
+        <h2 id="staff-h">Staff logins</h2>
+        <p class="sub">Owners manage logins and settings. Staff handle leads, texts and the blog.</p>
+      </div>
+      <button type="button" class="p-btn p-btn--primary" data-add>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        Add a login
+      </button>
+    </div>
+    <div class="p-alert p-alert--error" role="alert" hidden data-list-error style="margin:16px 20px 0"></div>
+    <ul class="people" data-people aria-live="polite"></ul>
+  </section>
+
+  <!-- Add a login -->
+  <dialog class="p-dialog" id="add-dialog" aria-labelledby="add-h">
+    <form data-add-form novalidate>
+      <h2 id="add-h">Add a login</h2>
+      <div class="p-alert p-alert--error" role="alert" hidden data-error></div>
+      <label class="p-field">Name
+        <input class="p-input" name="name" autocomplete="off" required />
+      </label>
+      <label class="p-field">Email
+        <input class="p-input" name="email" type="email" autocomplete="off" required />
+      </label>
+      <fieldset class="p-choice">
+        <legend>Role</legend>
+        <label><input type="radio" name="role" value="staff" checked /><strong>Staff</strong><span>Leads, texts, calendar and blog.</span></label>
+        <label><input type="radio" name="role" value="owner" /><strong>Owner</strong><span>Everything, plus logins and settings.</span></label>
+      </fieldset>
+      <div class="p-dialog__actions">
+        <button type="button" class="p-btn" data-close>Cancel</button>
+        <button type="submit" class="p-btn p-btn--primary">Create login</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Edit a login -->
+  <dialog class="p-dialog" id="edit-dialog" aria-labelledby="edit-h">
+    <form data-edit-form novalidate>
+      <h2 id="edit-h">Edit login</h2>
+      <p class="p-dialog__sub" data-edit-email></p>
+      <div class="p-alert p-alert--error" role="alert" hidden data-error></div>
+      <label class="p-field">Name
+        <input class="p-input" name="name" autocomplete="off" required />
+      </label>
+      <fieldset class="p-choice">
+        <legend>Role</legend>
+        <label><input type="radio" name="role" value="staff" /><strong>Staff</strong><span>Leads, texts, calendar and blog.</span></label>
+        <label><input type="radio" name="role" value="owner" /><strong>Owner</strong><span>Everything, plus logins and settings.</span></label>
+      </fieldset>
+      <label class="p-switch">
+        <span>Can sign in<small>Turn off when someone leaves. Signs them out right away.</small></span>
+        <input type="checkbox" name="active" />
+      </label>
+      <div class="p-dialog__actions" style="justify-content:space-between">
+        <button type="button" class="p-btn p-btn--danger-text" data-reset>Reset password</button>
+        <span style="display:flex;gap:10px">
+          <button type="button" class="p-btn" data-close>Cancel</button>
+          <button type="submit" class="p-btn p-btn--primary">Save</button>
+        </span>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- One-time temporary password -->
+  <dialog class="p-dialog" id="secret-dialog" aria-labelledby="secret-h">
+    <div class="p-dialog__body">
+      <h2 id="secret-h" data-secret-title>Login created</h2>
+      <p class="p-dialog__sub" data-secret-sub></p>
+      <div class="p-secret">
+        <code data-secret></code>
+        <button type="button" class="p-btn p-btn--sm" data-copy>Copy</button>
+      </div>
+      <p style="margin:0;font-size:14px;color:var(--p-text-2)">Give this to them in person or by text. They’ll choose their own password when they sign in. <strong>It won’t be shown again.</strong></p>
+      <p style="margin:0;font-size:14px;color:var(--p-text-2)">Sign-in page: <span data-login-url></span></p>
+      <div class="p-dialog__actions">
+        <button type="button" class="p-btn p-btn--primary" data-close>Done</button>
+      </div>
+    </div>
+  </dialog>
+</PortalApp>
+
+<style>
+  .sub { margin: 4px 0 0; font-size: 13px; color: var(--p-muted); }
+  .people { list-style: none; margin: 0; padding: 0; }
+  .people :global(li) { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; padding: 14px 20px; border-top: 1px solid var(--p-line-soft); }
+  .people :global(li:first-child) { border-top: 0; }
+  .people :global(.av) { width: 40px; height: 40px; flex: none; border-radius: 50%; background: var(--p-blue-soft); color: var(--p-blue); font-size: 14px; font-weight: 600; display: grid; place-items: center; }
+  .people :global(.off .av) { background: #eef0f2; color: #8a959b; }
+  .people :global(.who) { flex: 1 1 220px; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .people :global(.who strong) { font-size: 15px; }
+  .people :global(.who small) { font-size: 13px; color: var(--p-muted); overflow-wrap: anywhere; }
+  .people :global(.role) { width: 70px; font-size: 14px; color: var(--p-text-2); }
+  .people :global(.seen) { width: 210px; font-size: 13px; color: var(--p-muted); }
+  .people :global(.state) { width: 170px; }
+  .people :global(.you) { font-size: 12px; font-weight: 600; color: var(--p-muted); margin-left: 6px; }
+  @media (max-width: 700px) {
+    .people :global(.role), .people :global(.seen) { width: auto; }
+    .people :global(.state) { width: auto; }
+  }
+</style>
+
+<script>
+  import { api, requireUser, initials, whenText, escapeHtml, type PortalUser } from '../../scripts/portal';
+
+  type Row = { id: number; name: string; email: string; role: 'owner' | 'staff'; active: boolean; pending: boolean; last_login: number | null; is_me: boolean };
+
+  const list = document.querySelector<HTMLUListElement>('[data-people]')!;
+  const listError = document.querySelector<HTMLElement>('[data-list-error]')!;
+  const addDlg = document.getElementById('add-dialog') as HTMLDialogElement;
+  const editDlg = document.getElementById('edit-dialog') as HTMLDialogElement;
+  const secretDlg = document.getElementById('secret-dialog') as HTMLDialogElement;
+  const addForm = addDlg.querySelector('form')!;
+  const editForm = editDlg.querySelector('form')!;
+  let rows: Row[] = [];
+  let editing: Row | null = null;
+
+  document.querySelectorAll<HTMLButtonElement>('dialog [data-close]').forEach((b) =>
+    b.addEventListener('click', () => (b.closest('dialog') as HTMLDialogElement).close()));
+
+  function showError(form: HTMLElement, msg: string) {
+    const el = form.querySelector<HTMLElement>('[data-error]')!;
+    el.textContent = msg;
+    el.hidden = !msg;
+  }
+
+  function stateBadge(r: Row) {
+    if (!r.active) return '<span class="p-badge p-badge--gray">Turned off</span>';
+    if (r.pending) return '<span class="p-badge p-badge--amber">Needs to set password</span>';
+    return '<span class="p-badge p-badge--green">Active</span>';
+  }
+
+  function render() {
+    list.innerHTML = rows.map((r) => `
+      <li class="${r.active ? '' : 'off'}">
+        <span class="av" aria-hidden="true">${escapeHtml(initials(r.name))}</span>
+        <span class="who"><strong>${escapeHtml(r.name)}${r.is_me ? '<span class="you">You</span>' : ''}</strong><small>${escapeHtml(r.email)}</small></span>
+        <span class="role">${r.role === 'owner' ? 'Owner' : 'Staff'}</span>
+        <span class="seen">${r.last_login ? 'Last sign-in ' + escapeHtml(whenText(r.last_login).replace(/^(Today|Yesterday)/, (m) => m.toLowerCase())) : 'Never signed in'}</span>
+        <span class="state">${stateBadge(r)}</span>
+        <button type="button" class="p-btn p-btn--sm" data-edit="${r.id}" aria-label="Edit ${escapeHtml(r.name)}">Edit</button>
+      </li>`).join('');
+  }
+
+  async function load() {
+    try {
+      ({ users: rows } = await api<{ users: Row[] }>('users/list.php'));
+      listError.hidden = true;
+      render();
+    } catch (e) {
+      listError.textContent = (e as Error).message;
+      listError.hidden = false;
+    }
+  }
+
+  function showSecret(title: string, sub: string, secret: string) {
+    secretDlg.querySelector('[data-secret-title]')!.textContent = title;
+    secretDlg.querySelector('[data-secret-sub]')!.textContent = sub;
+    secretDlg.querySelector('[data-secret]')!.textContent = secret;
+    secretDlg.querySelector('[data-login-url]')!.textContent = `${location.origin}/portal/login`;
+    const copy = secretDlg.querySelector<HTMLButtonElement>('[data-copy]')!;
+    copy.textContent = 'Copy';
+    secretDlg.showModal();
+  }
+  secretDlg.querySelector<HTMLButtonElement>('[data-copy]')!.addEventListener('click', async (ev) => {
+    const btn = ev.currentTarget as HTMLButtonElement;
+    try { await navigator.clipboard.writeText(secretDlg.querySelector('[data-secret]')!.textContent || ''); btn.textContent = 'Copied'; }
+    catch { btn.textContent = 'Select and copy'; }
+  });
+
+  // ----- add -----
+  document.querySelector('[data-add]')!.addEventListener('click', () => {
+    addForm.reset();
+    showError(addForm, '');
+    addDlg.showModal();
+  });
+  addForm.addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    const fd = new FormData(addForm);
+    const btn = addForm.querySelector<HTMLButtonElement>('[type=submit]')!;
+    btn.disabled = true;
+    try {
+      const res = await api<{ temp_password: string }>('users/create.php', { body: { name: fd.get('name'), email: fd.get('email'), role: fd.get('role') } });
+      addDlg.close();
+      await load();
+      showSecret('Login created', `Temporary password for ${fd.get('name')} (${fd.get('email')})`, res.temp_password);
+    } catch (e) {
+      showError(addForm, (e as Error).message);
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  // ----- edit -----
+  list.addEventListener('click', (ev) => {
+    const btn = (ev.target as HTMLElement).closest<HTMLButtonElement>('[data-edit]');
+    if (!btn) return;
+    editing = rows.find((r) => r.id === Number(btn.dataset.edit)) || null;
+    if (!editing) return;
+    showError(editForm, '');
+    editDlg.querySelector('[data-edit-email]')!.textContent = editing.email;
+    (editForm.elements.namedItem('name') as HTMLInputElement).value = editing.name;
+    editForm.querySelectorAll<HTMLInputElement>('input[name=role]').forEach((i) => (i.checked = i.value === editing!.role));
+    (editForm.elements.namedItem('active') as HTMLInputElement).checked = editing.active;
+    const reset = editForm.querySelector<HTMLButtonElement>('[data-reset]')!;
+    reset.hidden = editing.is_me;
+    reset.textContent = 'Reset password';
+    reset.dataset.confirm = '';
+    editDlg.showModal();
+  });
+
+  editForm.addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    if (!editing) return;
+    const fd = new FormData(editForm);
+    const btn = editForm.querySelector<HTMLButtonElement>('[type=submit]')!;
+    btn.disabled = true;
+    try {
+      await api('users/update.php', { body: { id: editing.id, name: fd.get('name'), role: fd.get('role'), active: fd.get('active') === 'on' } });
+      editDlg.close();
+      await load();
+    } catch (e) {
+      showError(editForm, (e as Error).message);
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  // Reset needs a second click to confirm: it signs the person out.
+  editForm.querySelector<HTMLButtonElement>('[data-reset]')!.addEventListener('click', async (ev) => {
+    const btn = ev.currentTarget as HTMLButtonElement;
+    if (!editing) return;
+    if (!btn.dataset.confirm) {
+      btn.dataset.confirm = '1';
+      btn.textContent = 'Sign them out and reset?';
+      return;
+    }
+    btn.disabled = true;
+    try {
+      const res = await api<{ temp_password: string }>('users/reset.php', { body: { id: editing.id } });
+      editDlg.close();
+      await load();
+      showSecret('Password reset', `New temporary password for ${editing.name}`, res.temp_password);
+    } catch (e) {
+      showError(editForm, (e as Error).message);
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  requireUser({ ownerOnly: true }).then((_u: PortalUser) => load());
+</script>

@@ -1,0 +1,78 @@
+---
+import PortalApp from '../../layouts/PortalApp.astro';
+---
+<PortalApp title="My account" active="account">
+  <header class="p-pagehead">
+    <div>
+      <h1>My account</h1>
+      <p data-email></p>
+    </div>
+  </header>
+
+  <div class="p-alert" role="status" hidden data-first style="background:var(--p-amber-soft);color:#5c3a00;max-width:560px">
+    <strong>Set your own password to continue.</strong> You signed in with a temporary one.
+  </div>
+
+  <section class="p-panel" style="max-width:560px" aria-labelledby="pw-h">
+    <div class="p-panel__head"><h2 id="pw-h">Change password</h2></div>
+    <form class="pw" data-pw-form novalidate>
+      <div class="p-alert p-alert--error" role="alert" hidden data-error></div>
+      <div class="p-alert p-alert--ok" role="status" hidden data-ok>Password changed. Any other devices were signed out.</div>
+      <label class="p-field"><span data-current-label>Current password</span>
+        <input class="p-input" type="password" name="current_password" autocomplete="current-password" required />
+      </label>
+      <label class="p-field">New password
+        <input class="p-input" type="password" name="new_password" autocomplete="new-password" minlength="10" required />
+        <span class="p-hint">At least 10 characters.</span>
+      </label>
+      <label class="p-field">New password again
+        <input class="p-input" type="password" name="confirm" autocomplete="new-password" required />
+      </label>
+      <div><button type="submit" class="p-btn p-btn--primary">Save password</button></div>
+    </form>
+  </section>
+</PortalApp>
+
+<style>
+  .pw { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+</style>
+
+<script>
+  import { api, requireUser } from '../../scripts/portal';
+
+  const form = document.querySelector<HTMLFormElement>('[data-pw-form]')!;
+  const err = form.querySelector<HTMLElement>('[data-error]')!;
+  const ok = form.querySelector<HTMLElement>('[data-ok]')!;
+  const first = document.querySelector<HTMLElement>('[data-first]')!;
+  let pending = false;
+
+  requireUser().then((u) => {
+    document.querySelector('[data-email]')!.textContent = u.email;
+    pending = u.must_change_password;
+    first.hidden = !pending;
+    if (pending) form.querySelector('[data-current-label]')!.textContent = 'Temporary password';
+  });
+
+  form.addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    err.hidden = true;
+    ok.hidden = true;
+    const fd = new FormData(form);
+    const next = String(fd.get('new_password') || '');
+    if (next.length < 10) { err.textContent = 'Use at least 10 characters.'; err.hidden = false; return; }
+    if (next !== fd.get('confirm')) { err.textContent = 'The two new passwords don’t match.'; err.hidden = false; return; }
+    const btn = form.querySelector<HTMLButtonElement>('[type=submit]')!;
+    btn.disabled = true;
+    try {
+      await api('account/password.php', { body: { current_password: fd.get('current_password'), new_password: next } });
+      if (pending) { location.replace('/portal/dashboard'); return; }
+      form.reset();
+      ok.hidden = false;
+    } catch (e) {
+      err.textContent = (e as Error).message;
+      err.hidden = false;
+    } finally {
+      btn.disabled = false;
+    }
+  });
+</script>

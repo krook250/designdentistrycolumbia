@@ -16,7 +16,7 @@ $st = $pdo->prepare('SELECT COUNT(*) FROM login_attempts WHERE email = ? AND ip 
 $st->execute([$email, $ip]);
 if ((int)$st->fetchColumn() >= 5) json_out(429, ['error' => 'Too many attempts. Try again in 15 minutes.']);
 
-$st = $pdo->prepare('SELECT id, email, name, role, password_hash FROM users WHERE email = ? AND active = 1');
+$st = $pdo->prepare('SELECT id, email, name, role, password_hash, must_change_password, password_changed_at FROM users WHERE email = ? AND active = 1');
 $st->execute([$email]);
 $u = $st->fetch();
 
@@ -32,8 +32,5 @@ if (password_needs_rehash($u['password_hash'], PASSWORD_DEFAULT)) {
 }
 $pdo->prepare('UPDATE users SET last_login_at = NOW() WHERE id = ?')->execute([$u['id']]);
 
-start_session();
-session_regenerate_id(true);
-$_SESSION = ['uid' => (int)$u['id'], 'seen' => time()];
-
+sign_in($u);
 json_out(200, ['user' => public_user($u), 'csrf' => csrf_token()]);

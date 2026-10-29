@@ -45,6 +45,11 @@ import PortalBase from '../../layouts/PortalBase.astro';
     ev.preventDefault();
     err.hidden = true;
     const fd = new FormData(form);
+    if (String(fd.get('password') || '').length < 10) {
+      err.textContent = 'Use at least 10 characters for the password.';
+      err.hidden = false;
+      return;
+    }
     btn.disabled = true;
     try {
       await api('setup.php', { body: Object.fromEntries(fd) });

@@ -33,6 +33,7 @@ body {
 a { color: var(--p-blue); }
 a:hover { color: var(--p-blue-dark); }
 h1, h2, h3 { margin: 0; line-height: 1.25; }
+[hidden] { display: none !important; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 /* Hide signed-in pages until the session check passes (no flash of the app) */
@@ -96,3 +97,45 @@ html[data-guard]:not([data-auth='ok']) .p-app { visibility: hidden; }
 .p-stat__label { font-size: 13px; font-weight: 500; color: var(--p-muted); }
 .p-stat__value { font-size: 32px; font-weight: 700; }
 .p-stat__sub { font-size: 13px; color: var(--p-muted); }
+
+/* ---------- badges ---------- */
+.p-badge { display: inline-flex; align-items: center; height: 26px; padding: 0 10px; border-radius: 999px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+.p-badge--green { background: var(--p-green-soft); color: var(--p-green-text); }
+.p-badge--amber { background: var(--p-amber-soft); color: var(--p-amber-text); }
+.p-badge--gray { background: #eef0f2; color: #4a555c; }
+.p-badge--blue { background: var(--p-blue-soft); color: var(--p-blue-dark); }
+
+/* ---------- dialogs ---------- */
+.p-dialog { width: min(480px, calc(100vw - 32px)); border: 0; border-radius: 16px; padding: 0; color: var(--p-text); box-shadow: 0 24px 60px rgba(16, 32, 44, .22); }
+.p-dialog::backdrop { background: rgba(16, 32, 44, .45); }
+.p-dialog form, .p-dialog__body { padding: 26px 26px 22px; display: flex; flex-direction: column; gap: 16px; }
+.p-dialog h2 { font-size: 19px; font-weight: 700; }
+.p-dialog__sub { margin: -8px 0 0; font-size: 14px; color: var(--p-muted); }
+.p-dialog__actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; margin-top: 4px; }
+
+/* role picker */
+.p-choice { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; border: 0; margin: 0; padding: 0; }
+.p-choice legend { font-size: 13px; font-weight: 600; color: var(--p-text-2); margin-bottom: 8px; }
+.p-choice label { position: relative; display: flex; flex-direction: column; gap: 4px; padding: 12px 14px; border: 1px solid var(--p-input); border-radius: 12px; cursor: pointer; }
+.p-choice label:has(input:checked) { border-color: var(--p-blue); background: #f2f7fb; box-shadow: inset 0 0 0 1px var(--p-blue); }
+.p-choice input { position: absolute; opacity: 0; pointer-events: none; }
+.p-choice label:has(input:focus-visible) { outline: 2px solid var(--p-blue); outline-offset: 2px; }
+.p-choice strong { font-size: 14px; }
+.p-choice span { font-size: 12px; color: var(--p-muted); line-height: 1.4; }
+
+/* on/off switch */
+.p-switch { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 14px; border: 1px solid var(--p-line); border-radius: 12px; cursor: pointer; }
+.p-switch span { display: flex; flex-direction: column; gap: 2px; font-size: 14px; font-weight: 600; }
+.p-switch small { font-size: 12px; font-weight: 400; color: var(--p-muted); }
+.p-switch input { appearance: none; flex: none; width: 44px; height: 26px; border-radius: 999px; background: #c9d3d9; position: relative; cursor: pointer; transition: background .15s; margin: 0; }
+.p-switch input::after { content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.2); transition: transform .15s; }
+.p-switch input:checked { background: var(--p-green-text); }
+.p-switch input:checked::after { transform: translateX(18px); }
+.p-switch input:focus-visible { outline: 2px solid var(--p-blue); outline-offset: 2px; }
+
+/* one-time secret */
+.p-secret { display: flex; align-items: center; gap: 10px; padding: 14px 16px; border-radius: 12px; background: var(--p-bg); border: 1px dashed var(--p-input); }
+.p-secret code { flex: 1; font: 600 18px/1.2 ui-monospace, 'SFMono-Regular', Consolas, monospace; letter-spacing: .04em; overflow-wrap: anywhere; }
+.p-btn--sm { height: 36px; padding: 0 12px; font-size: 13px; }
+.p-btn--danger-text { border-color: transparent; background: none; color: var(--p-red-text); padding: 0 6px; }
+.p-btn--danger-text:hover { background: var(--p-red-soft); color: var(--p-red-text); }
