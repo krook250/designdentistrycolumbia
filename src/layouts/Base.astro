@@ -40,20 +40,14 @@ const ogImage = new URL(image, Astro.site).href;
   <meta property="og:url" content={canonical} />
   <meta property="og:image" content={ogImage} />
   <meta name="twitter:card" content="summary" />
-  <meta name="google-site-verification" content="04uA55duBvYQbyIAVUZ2xwzOLtMlGO6IUsVkSuelx-Q" />
+  <meta name="google-site-verification" content="TvEui2SSE8UVw6KtNu1LzjkfElsX-gleK_ZE7HLGxj4" />
   <meta name="facebook-domain-verification" content="52ig2r5ta7hz84455bbeh5pavb0wcn" />
   <slot name="head" />
 
-  <!-- Google Tag Manager (carried over from Duda) -->
-  <script is:inline>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-NP2GPR4J');</script>
-  <!-- Google Analytics 4 (both properties that were on the Duda site) -->
-  <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-Q94NCM54C4"></script>
-  <script is:inline>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-Q94NCM54C4');gtag('config','G-1ERNVVYKDH');</script>
   <!-- Meta Pixel -->
   <script is:inline>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','370518235299915');fbq('track','PageView');</script>
 </head>
 <body>
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NP2GPR4J" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=370518235299915&ev=PageView&noscript=1" /></noscript>
   <a class="sr-only" href="#main">Skip to content</a>
   <Header />
