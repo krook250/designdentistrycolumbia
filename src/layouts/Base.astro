@@ -28,6 +28,15 @@ const ogImage = new URL(image, Astro.site).href;
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+  <!-- Google Tag Manager -->
+  <script is:inline async src="https://www.googletagmanager.com/gtm.js?id=GTM-TDVNBFHR"></script>
+  <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    dataLayer.push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
+    gtag('js', new Date());
+  </script>
   <title>{title}</title>
   <meta name="description" content={description} />
   <link rel="canonical" href={canonical} />
