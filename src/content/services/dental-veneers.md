@@ -1,7 +1,7 @@
 ---
 slug: "dental-veneers"
-metaTitle: "Columbia Dental Veneers - Design Dentistry Columbia"
-description: "Design Dentistry Columbia is a Cosmetic Dental practice that also offers General Dentistry with state-of-the-art technology and restorative services . We pride ourselves on creating lifelong relationships and work to ensure that each patient receive treatments in a comfortable and relaxed environment."
+metaTitle: "Porcelain Dental Veneers in Columbia, SC | Design Dentistry"
+description: "Close gaps, fix chips and brighten your smile with porcelain veneers in Columbia, SC. Custom natural-looking results from Dr. Davis. Book a consultation today."
 h1: "Columbia Dental Veneers"
 subtitle: "The #1 most popular for cosmetic choices in the oral health field"
 heroVideo: "/videos/ZLSNrVYtTDGSp0qy0y92_Veneers-v.mp4"

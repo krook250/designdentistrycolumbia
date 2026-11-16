@@ -1,7 +1,7 @@
 ---
 slug: "teeth-whitening"
-metaTitle: "Columbia Teeth Whitening - Design Dentistry Columbia"
-description: "Design Dentistry Columbia is a Cosmetic Dental practice that also offers General Dentistry with state-of-the-art technology and restorative services . We pride ourselves on creating lifelong relationships and work to ensure that each patient receive treatments in a comfortable and relaxed environment."
+metaTitle: "Teeth Whitening in Columbia, SC | Design Dentistry Columbia"
+description: "Get a brighter smile with professional teeth whitening in Columbia, SC. Safe, in-office and take-home options from Dr. Isaiah Davis. Call 803-667-3919 to book."
 h1: "Columbia Teeth Whitening"
 subtitle: "When you need to shine."
 heroVideo: "/videos/7Jj4VMKrQk6cM7159Nc0_3-CM-v.mp4"

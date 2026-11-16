@@ -1,7 +1,7 @@
 ---
 slug: "cosmetic-dentistry"
-metaTitle: "Columbia Cosmetic Dentistry - Design Dentistry Columbia"
-description: "Design Dentistry Columbia is a Cosmetic Dental practice that also offers General Dentistry with state-of-the-art technology and restorative services . We pride ourselves on creating lifelong relationships and work to ensure that each patient receive treatments in a comfortable and relaxed environment."
+metaTitle: "Cosmetic Dentist in Columbia SC | Design Dentistry Columbia"
+description: "Transform your smile with cosmetic dentistry from Dr. Isaiah Davis in Columbia, SC. Veneers, bonding, implants, and more. Call 803-667-3919 to book your visit."
 h1: "Columbia Cosmetic Dentistry"
 heroVideo: "/videos/8DRCU5MfSYeHOuAXUD4U_Pull-Tooth-v.mp4"
 heroPoster: "/images/8DRCU5MfSYeHOuAXUD4U_Pull-Tooth.v2.0000000.jpg"

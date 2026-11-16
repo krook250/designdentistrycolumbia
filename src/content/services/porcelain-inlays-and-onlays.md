@@ -1,7 +1,7 @@
 ---
 slug: "porcelain-inlays-and-onlays"
-metaTitle: "Columbia Porcelain Inlays And Onlays - Design Dentistry Columbia"
-description: "Design Dentistry Columbia is a Cosmetic Dental practice that also offers General Dentistry with state-of-the-art technology and restorative services . We pride ourselves on creating lifelong relationships and work to ensure that each patient receive treatments in a comfortable and relaxed environment."
+metaTitle: "Porcelain Inlays & Onlays in Columbia SC | Design Dentistry"
+description: "Restore damaged teeth with durable, tooth-colored porcelain inlays and onlays in Columbia, SC. A conservative alternative to crowns. Call 803-667-3919 to book."
 h1: "Columbia Porcelain Inlays And Onlays"
 heroVideo: "/videos/8DRCU5MfSYeHOuAXUD4U_Pull-Tooth-v.mp4"
 heroPoster: "/images/8DRCU5MfSYeHOuAXUD4U_Pull-Tooth.v2.0000000.jpg"
